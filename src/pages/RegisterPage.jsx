@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import RegisterForm from '../components/RegisterForm'
+import RegisterForm from '../components/Forms/RegisterForm'
 
 const RegisterPage = () => {
   
-  const handleRegister = (email, password) => {
-    console.log('Registering:', email, password);
+  const handleRegister = (email, password, local) => {
+    console.log('Cadastro Enviado:', { email, password, local });
    
   };
 
