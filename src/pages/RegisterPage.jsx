@@ -1,12 +1,21 @@
+// RegisterPage.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import RegisterForm from '../components/Forms/RegisterForm'
+import RegisterForm from '../components/Forms/RegisterForm';
+import axios from 'axios';
 
 const RegisterPage = () => {
-  
-  const handleRegister = (email, password, local) => {
-    console.log('Cadastro Enviado:', { email, password, local });
-   
+  const handleRegister = async (email, password, local) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/admin`, {
+        login: email,
+        senha: password,
+        nome_local: local,
+      });
+      console.log('Cadastro realizado com sucesso:', response.data);
+    } catch (error) {
+      console.error('Erro ao realizar o cadastro:', error);
+    }
   };
 
   return (
