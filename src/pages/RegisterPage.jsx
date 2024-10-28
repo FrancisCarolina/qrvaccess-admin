@@ -1,10 +1,19 @@
-// RegisterPage.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import RegisterForm from '../components/Forms/RegisterForm';
 import axios from 'axios';
+import { verificaSeLogado } from '../utils/auth';
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (verificaSeLogado()) {
+      navigate('/');
+    }
+  }, [navigate]);
+
   const handleRegister = async (email, password, local) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/admin`, {
@@ -19,14 +28,14 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
+    !verificaSeLogado() ? (<div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
       <h2 className="mb-4">Cadastro</h2>
       <RegisterForm onRegister={handleRegister} />
 
       <div className="mt-3 text-center">
         <p>Já tem uma conta? <Link to="/login">Faça login aqui</Link></p>
       </div>
-    </div>
+    </div>) : null
   );
 };
 
