@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import RegisterForm from '../components/Forms/RegisterForm';
 import axios from 'axios';
 import { verificaSeLogado } from '../utils/auth';
+import MessageModal from '../components/Modal';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalType, setModalType] = useState('');
 
   React.useEffect(() => {
     if (verificaSeLogado()) {
@@ -21,21 +25,51 @@ const RegisterPage = () => {
         senha: password,
         nome_local: local,
       });
-      console.log('Cadastro realizado com sucesso:', response.data);
+
+      setModalMessage(response.data);
+      setModalType('success');
+      setShowModal(true);
+
     } catch (error) {
       console.error('Erro ao realizar o cadastro:', error);
+
+      let errorMessage = 'Erro ao registrar usuário.'; // Mensagem padrão
+      if (error.response && error.response.status === 409) {
+        errorMessage = 'Este Login já está em uso.';
+      }
+      setModalMessage(errorMessage);
+      setModalType('error');
+      setShowModal(true);
     }
   };
 
-  return (
-    !verificaSeLogado() ? (<div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
-      <h2 className="mb-4">Cadastro</h2>
-      <RegisterForm onRegister={handleRegister} />
+  const handleCloseModal = () => {
+    setShowModal(false);
+    if (modalType === 'success') {
+      navigate("/login");
+    }
+  } // Função para fechar o modal
 
-      <div className="mt-3 text-center">
-        <p>Já tem uma conta? <Link to="/login">Faça login aqui</Link></p>
+  return (
+    !verificaSeLogado() ? (
+      <div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
+        <h2 className="mb-4">Cadastro</h2>
+        <RegisterForm onRegister={handleRegister} />
+
+        <div className="mt-3 text-center">
+          <p>Já tem uma conta? <Link to="/login">Faça login aqui</Link></p>
+        </div>
+
+        {/* Modal de mensagem */}
+        <MessageModal
+          showModal={showModal}
+          handleClose={handleCloseModal}
+          title={modalType === 'success' ? 'Sucesso' : 'Erro'}
+          message={modalMessage}
+          type={modalType}
+        />
       </div>
-    </div>) : null
+    ) : null
   );
 };
 
