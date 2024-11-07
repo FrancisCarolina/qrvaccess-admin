@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';  // Importe o useSelector
 import { deslogar, verificaSeLogado } from '../utils/auth';
 import { Dropdown } from 'react-bootstrap';
 import { FaBell, FaUserCircle } from 'react-icons/fa';
@@ -7,6 +8,8 @@ import { FaBell, FaUserCircle } from 'react-icons/fa';
 const HomePage = () => {
     const navigate = useNavigate();
     const [notifications,] = React.useState(1);
+
+    const user = useSelector((state) => state.user.user);
 
     React.useEffect(() => {
         if (!verificaSeLogado()) {
@@ -32,7 +35,7 @@ const HomePage = () => {
             <div className="home-page">
                 <header className="navbar navbar-light bg-light shadow-sm p-3 mb-5">
                     <div className="navbar-left">
-                        <h2>Home </h2>
+                        <h2>{user?.local?.nome}</h2>
                     </div>
                     <div className="navbar-right d-flex align-items-center">
                         <button onClick={handleNotificationsClick} className="btn btn-link">
@@ -58,7 +61,6 @@ const HomePage = () => {
             </div>
         ) : null
     );
-
 };
 
 export default HomePage;
