@@ -37,7 +37,7 @@ const LoginPage = () => {
         const user = userResponse.data;
 
         if (user.role_id === 1) {
-          logar(token);
+          logar(token, user.id);
 
           dispatch(setUser({ user, token }));
 
