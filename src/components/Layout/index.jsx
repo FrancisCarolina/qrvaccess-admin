@@ -6,6 +6,8 @@ import { deslogar, verificaSeLogado } from '../../utils/auth';
 import { Dropdown } from 'react-bootstrap';
 import { FaBell, FaUserCircle } from 'react-icons/fa';
 import { setUser } from '../../redux/userSlice';
+import { logoutUser } from '../../redux/userSlice';
+import { clearDrivers } from '../../redux/driverSlice'
 
 const Layout = ({ children }) => {
     const navigate = useNavigate();
@@ -44,6 +46,11 @@ const Layout = ({ children }) => {
     }, [navigate, dispatch, user]);
 
     const handleLogout = () => {
+        // Limpa os dados do Redux
+        dispatch(logoutUser());
+        dispatch(clearDrivers());
+
+        // Realiza o logout e redireciona para a página de login
         deslogar();
         navigate('/login');
     };

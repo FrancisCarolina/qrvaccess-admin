@@ -32,15 +32,15 @@ const DriversPage = () => {
                 }
             } else {
                 console.error('Usuário ou token não encontrado.');
-                setLoading(false);
+                setLoading(false); // Se não encontrar o usuário ou token, defina o loading como false
             }
         };
 
         fetchDrivers();
-    }, [user, drivers, dispatch]);
+    }, [user, drivers, dispatch]); // Adiciona o `drivers` e `dispatch` como dependências
 
     if (loading) {
-        return <div>Carregando...</div>;
+        return <div>Carregando...</div>; // Exibe uma mensagem de carregamento enquanto os dados estão sendo buscados
     }
 
     return (
