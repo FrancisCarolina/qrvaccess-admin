@@ -1,91 +1,13 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import { deslogar, verificaSeLogado } from '../utils/auth';
-import { Dropdown } from 'react-bootstrap';
-import { FaBell, FaUserCircle } from 'react-icons/fa';
-import { setUser } from '../redux/userSlice';
+import React from 'react';
+import Layout from '../components/Layout';
 
 const HomePage = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [notifications] = React.useState(1);
-
-    const user = useSelector((state) => state.user.user);
-
-    useEffect(() => {
-        if (!verificaSeLogado()) {
-            navigate('/login');
-        }
-        if (!user) {
-            const token = localStorage.getItem('authToken');
-            const userId = localStorage.getItem('userId');
-
-            if (token && userId) {
-                const fetchUser = async () => {
-                    try {
-                        const response = await axios.get(`${process.env.REACT_APP_API_URL}/usuario/${userId}`, {
-                            headers: { 'x-access-token': token },
-                        });
-
-                        const userData = response.data;
-
-                        dispatch(setUser({ user: userData, token }));
-
-                    } catch (error) {
-                        console.error('Erro ao buscar o usuário:', error);
-                    }
-                };
-
-                fetchUser();
-            }
-        }
-    }, [navigate, dispatch, user]);
-
-    const handleLogout = () => {
-        deslogar();
-        navigate('/login');
-    };
-
-    const handleNotificationsClick = () => {
-        alert('Aqui estão suas notificações');
-    };
-
-    const handleViewProfile = () => {
-        navigate('/perfil');
-    };
-
     return (
-        verificaSeLogado() ? (
-            <div className="home-page">
-                <header className="navbar navbar-light bg-light shadow-sm p-3 mb-5">
-                    <div className="navbar-left">
-                        <h2>{user?.local?.nome || 'Nome do Usuário'}</h2>
-                    </div>
-                    <div className="navbar-right d-flex align-items-center">
-                        <button onClick={handleNotificationsClick} className="btn btn-link">
-                            <FaBell size={24} />
-                            {notifications > 0 && <span className="badge bg-danger">{notifications}</span>}
-                        </button>
-
-                        <Dropdown align="end">
-                            <Dropdown.Toggle variant="link" id="dropdown-profile">
-                                <FaUserCircle size={24} />
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item onClick={handleViewProfile}>Ver Perfil</Dropdown.Item>
-                                <Dropdown.Item onClick={handleLogout}>Deslogar</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
-                </header>
-                <section className="drivers-section mt-4">
-                    HOME
-                </section>
-            </div>
-        ) : null
+        <Layout>
+            <section className="drivers-section mt-4">
+                HOME
+            </section>
+        </Layout>
     );
 };
 
