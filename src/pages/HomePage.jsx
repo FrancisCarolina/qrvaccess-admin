@@ -1,32 +1,58 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';  // Importe o useSelector
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import { deslogar, verificaSeLogado } from '../utils/auth';
 import { Dropdown } from 'react-bootstrap';
 import { FaBell, FaUserCircle } from 'react-icons/fa';
+import { setUser } from '../redux/userSlice';
 
 const HomePage = () => {
     const navigate = useNavigate();
-    const [notifications,] = React.useState(1);
+    const dispatch = useDispatch();
+    const [notifications] = React.useState(1);
 
     const user = useSelector((state) => state.user.user);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!verificaSeLogado()) {
             navigate('/login');
         }
-    }, [navigate]);
+        if (!user) {
+            const token = localStorage.getItem('authToken');
+            const userId = localStorage.getItem('userId');
+
+            if (token && userId) {
+                const fetchUser = async () => {
+                    try {
+                        const response = await axios.get(`${process.env.REACT_APP_API_URL}/usuario/${userId}`, {
+                            headers: { 'x-access-token': token },
+                        });
+
+                        const userData = response.data;
+
+                        dispatch(setUser({ user: userData, token }));
+
+                    } catch (error) {
+                        console.error('Erro ao buscar o usuário:', error);
+                    }
+                };
+
+                fetchUser();
+            }
+        }
+    }, [navigate, dispatch, user]);
 
     const handleLogout = () => {
         deslogar();
         navigate('/login');
     };
+
     const handleNotificationsClick = () => {
-        // Lógica para mostrar as notificações
         alert('Aqui estão suas notificações');
     };
+
     const handleViewProfile = () => {
-        // Redireciona para a página de dados pessoais
         navigate('/perfil');
     };
 
@@ -35,7 +61,7 @@ const HomePage = () => {
             <div className="home-page">
                 <header className="navbar navbar-light bg-light shadow-sm p-3 mb-5">
                     <div className="navbar-left">
-                        <h2>{user?.local?.nome}</h2>
+                        <h2>{user?.local?.nome || 'Nome do Usuário'}</h2>
                     </div>
                     <div className="navbar-right d-flex align-items-center">
                         <button onClick={handleNotificationsClick} className="btn btn-link">
