@@ -15,10 +15,10 @@ const DriversPage = () => {
         const fetchDrivers = async () => {
             const token = localStorage.getItem('authToken');
 
-            if (token && user && user.local && user.local.id) {
+            if (token && user && user.Local && user.Local.id) {
                 try {
                     if (drivers.length === 0) {
-                        const response = await axios.get(`${process.env.REACT_APP_API_URL}/condutor/local/${user.local.id}`, {
+                        const response = await axios.get(`${process.env.REACT_APP_API_URL}/condutor/local/${user.Local.id}`, {
                             headers: { 'x-access-token': token },
                         });
                         console.log("RESPONSE: ", response.data);

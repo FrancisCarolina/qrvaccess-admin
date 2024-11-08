@@ -17,6 +17,8 @@ const Layout = ({ children }) => {
     const user = useSelector((state) => state.user.user);
 
     useEffect(() => {
+        console.log(user);
+
         if (!verificaSeLogado()) {
             navigate('/login');
         }
@@ -46,11 +48,9 @@ const Layout = ({ children }) => {
     }, [navigate, dispatch, user]);
 
     const handleLogout = () => {
-        // Limpa os dados do Redux
         dispatch(logoutUser());
         dispatch(clearDrivers());
 
-        // Realiza o logout e redireciona para a página de login
         deslogar();
         navigate('/login');
     };
@@ -68,7 +68,7 @@ const Layout = ({ children }) => {
             <div className="layout">
                 <header className="navbar navbar-light bg-light shadow-sm p-3 mb-5">
                     <div className="navbar-left">
-                        <h2>{user?.local?.nome || 'Nome do Usuário'}</h2>
+                        <h2>{user?.Local?.nome || 'Nome do Usuário'}</h2>
                     </div>
                     <div className="navbar-right d-flex align-items-center">
                         <button onClick={handleNotificationsClick} className="btn btn-link">
