@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import RegisterForm from '../components/Forms/RegisterForm';
+import RegisterForm from '../../components/Forms/RegisterForm';
 import axios from 'axios';
-import { verificaSeLogado } from '../utils/auth';
-import MessageModal from '../components/Modal';
+import { verificaSeLogado } from '../../utils/auth';
+import MessageModal from '../../components/Modal';
 
 const RegisterPage = () => {
   const navigate = useNavigate();

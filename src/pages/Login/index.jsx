@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginForm from '../components/Forms/LoginForm';
+import LoginForm from '../../components/Forms/LoginForm';
 import axios from 'axios';
-import { logar, verificaSeLogado } from '../utils/auth';
-import MessageModal from '../components/Modal';
+import { logar, verificaSeLogado } from '../../utils/auth';
+import MessageModal from '../../components/Modal';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../redux/userSlice';
+import { setUser } from '../../redux/userSlice';
 
 const LoginPage = () => {
   const navigate = useNavigate();

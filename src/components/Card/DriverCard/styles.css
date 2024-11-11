@@ -1,0 +1,11 @@
+.driver-card {
+    flex: 1 1 30%;
+    gap: 20;
+    min-width: 350px;
+}
+
+@media (max-width: 768px) {
+    .driver-card {
+        flex: 1 1 100%;
+    }
+}

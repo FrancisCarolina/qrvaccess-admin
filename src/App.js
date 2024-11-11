@@ -1,10 +1,10 @@
 // App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import HomePage from './pages/HomePage';
-import DriversPage from './pages/DriversPage';
+import LoginPage from './pages/Login';
+import RegisterPage from './pages/Register';
+import HomePage from './pages/Home';
+import DriversPage from './pages/Drivers';
 
 const App = () => {
   return (

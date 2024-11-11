@@ -6,7 +6,9 @@
 
 .nav-item-hover:hover {
     background-color: #e0e0e0;
-    /* Altere a cor conforme sua preferência */
     color: #333;
-    /* Cor do texto ao passar o mouse */
+}
+
+.layout-content {
+    padding: 0 40px;
 }

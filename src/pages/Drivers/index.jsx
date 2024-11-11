@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { setDrivers, selectDrivers } from '../redux/driverSlice';
-import Layout from '../components/Layout';
+import { setDrivers, selectDrivers } from '../../redux/driverSlice';
+import Layout from '../../components/Layout';
+import DriverCard from '../../components/Card/DriverCard';
+import './styles.css';
 
 const DriversPage = () => {
     const dispatch = useDispatch();
@@ -32,25 +34,29 @@ const DriversPage = () => {
                 }
             } else {
                 console.error('Usuário ou token não encontrado.');
-                setLoading(false); // Se não encontrar o usuário ou token, defina o loading como false
+                setLoading(false);
             }
         };
 
         fetchDrivers();
-    }, [user, drivers, dispatch]); // Adiciona o `drivers` e `dispatch` como dependências
+    }, [user, drivers, dispatch]);
+
+    const handleEdit = (driverId) => {
+        console.log(`Editar condutor com ID: ${driverId}`);
+    };
 
     if (loading) {
-        return <div>Carregando...</div>; // Exibe uma mensagem de carregamento enquanto os dados estão sendo buscados
+        return <div>Carregando...</div>;
     }
 
     return (
         <Layout>
-            <h2>Condutores</h2>
-            <ul>
+            <h2 className='mb-4'>Meus Condutores</h2>
+            <div className="driver-cards-container">
                 {drivers.map((driver) => (
-                    <li key={driver.id}>{driver.nome}</li>
+                    <DriverCard key={driver.id} driver={driver} onEdit={handleEdit} />
                 ))}
-            </ul>
+            </div>
         </Layout>
     );
 };

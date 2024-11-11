@@ -94,7 +94,7 @@ const Layout = ({ children }) => {
                         </Dropdown>
                     </div>
                 </header>
-                <main>{children}</main>
+                <main className='layout-content'>{children}</main>
             </div>
         ) : null
     );
