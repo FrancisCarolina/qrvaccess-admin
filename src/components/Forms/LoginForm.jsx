@@ -24,10 +24,10 @@ const LoginForm = ({ onLogin }) => {
           required
         />
       </div>
-      
+
       <div className="mb-3">
         <label htmlFor="password" className="form-label">Senha:</label>
-        <PasswordInput 
+        <PasswordInput
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -35,8 +35,7 @@ const LoginForm = ({ onLogin }) => {
       </div>
 
       <button type="submit" className="btn btn-primary w-100">Entrar</button>
-    
-      {/* Link para a tela de cadastro */}
+
       <div className="mt-3 text-center">
         <p>Não tem uma conta? <Link to="/register">Cadastre-se aqui</Link></p>
       </div>

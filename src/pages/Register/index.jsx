@@ -33,7 +33,7 @@ const RegisterPage = () => {
     } catch (error) {
       console.error('Erro ao realizar o cadastro:', error);
 
-      let errorMessage = 'Erro ao registrar usuário.'; // Mensagem padrão
+      let errorMessage = 'Erro ao registrar usuário.';
       if (error.response && error.response.status === 409) {
         errorMessage = 'Este Login já está em uso.';
       }
@@ -48,8 +48,7 @@ const RegisterPage = () => {
     if (modalType === 'success') {
       navigate("/login");
     }
-  } // Função para fechar o modal
-
+  }
   return (
     !verificaSeLogado() ? (
       <div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
@@ -60,7 +59,6 @@ const RegisterPage = () => {
           <p>Já tem uma conta? <Link to="/login">Faça login aqui</Link></p>
         </div>
 
-        {/* Modal de mensagem */}
         <MessageModal
           showModal={showModal}
           handleClose={handleCloseModal}
