@@ -66,7 +66,7 @@ const Layout = ({ children }) => {
     return (
         verificaSeLogado() ? (
             <div className="layout">
-                <header className="navbar navbar-light bg-light shadow-sm p-3 mb-5 d-flex justify-content-between">
+                <header className="navbar navbar-light bg-light shadow-sm p-3 mb-3 d-flex justify-content-between">
                     <div className="navbar-left">
                         <h2 onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
                             {user?.Local?.nome || 'Meu Local'}

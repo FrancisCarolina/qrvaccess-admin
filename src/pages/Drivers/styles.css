@@ -5,6 +5,11 @@
     gap: 20px;
 }
 
+.cards-scroll-container {
+    max-height: 470px;
+    overflow-y: auto;
+}
+
 @media (max-width: 768px) {
     .driver-cards-container {
         justify-content: center;
