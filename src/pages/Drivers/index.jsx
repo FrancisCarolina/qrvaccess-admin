@@ -7,10 +7,12 @@ import DriverCard from '../../components/Card/DriverCard';
 import './styles.css';
 import { Button } from 'react-bootstrap';
 import { FaPlus } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const DriversPage = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const user = useSelector((state) => state.user.user);
     const drivers = useSelector(selectDrivers);
@@ -48,7 +50,7 @@ const DriversPage = () => {
     };
 
     const handleCreateDriver = () => {
-        console.log("Criar novo condutor");
+        navigate("/novoCondutor")
     };
 
     if (loading) {
