@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { deslogar, verificaSeLogado } from '../../utils/auth';
-import { Dropdown } from 'react-bootstrap';
+import { Dropdown, Nav } from 'react-bootstrap';
 import { FaBell, FaUserCircle } from 'react-icons/fa';
 import { setUser } from '../../redux/userSlice';
 import { logoutUser } from '../../redux/userSlice';
-import { clearDrivers } from '../../redux/driverSlice'
+import { clearDrivers } from '../../redux/driverSlice';
+import './styles.css'; // Arquivo CSS para estilos personalizados
 
 const Layout = ({ children }) => {
     const navigate = useNavigate();
@@ -36,7 +37,6 @@ const Layout = ({ children }) => {
                         const userData = response.data;
 
                         dispatch(setUser({ user: userData, token }));
-
                     } catch (error) {
                         console.error('Erro ao buscar o usuário:', error);
                     }
@@ -66,16 +66,22 @@ const Layout = ({ children }) => {
     return (
         verificaSeLogado() ? (
             <div className="layout">
-                <header className="navbar navbar-light bg-light shadow-sm p-3 mb-5">
+                <header className="navbar navbar-light bg-light shadow-sm p-3 mb-5 d-flex justify-content-between">
                     <div className="navbar-left">
-                        <h2>{user?.Local?.nome || 'Nome do Usuário'}</h2>
+                        <h2 onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                            {user?.Local?.nome || 'Meu Local'}
+                        </h2>
                     </div>
+                    <Nav className="navbar-center d-flex">
+                        <Nav.Link className="nav-item-hover" onClick={() => navigate('/condutores')}>Condutores</Nav.Link>
+                        <Nav.Link className="nav-item-hover" onClick={() => navigate('/veiculos')}>Veículos</Nav.Link>
+                        <Nav.Link className="nav-item-hover" onClick={() => navigate('/relatorios')}>Relatórios</Nav.Link>
+                    </Nav>
                     <div className="navbar-right d-flex align-items-center">
                         <button onClick={handleNotificationsClick} className="btn btn-link">
                             <FaBell size={24} />
                             {notifications > 0 && <span className="badge bg-danger">{notifications}</span>}
                         </button>
-
                         <Dropdown align="end">
                             <Dropdown.Toggle variant="link" id="dropdown-profile">
                                 <FaUserCircle size={24} />
