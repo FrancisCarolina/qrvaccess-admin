@@ -1,0 +1,17 @@
+.vehicle-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.cards-scroll-container {
+    max-height: 470px;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .vehicle-cards-container {
+        justify-content: center;
+    }
+}
