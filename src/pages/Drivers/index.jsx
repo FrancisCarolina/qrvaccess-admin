@@ -64,14 +64,6 @@ const DriversPage = () => {
                 <div className="driver-cards-container">
                     {drivers.map((driver) => (
                         <DriverCard key={driver.id} driver={driver} onEdit={handleEdit} />
-                    ))}{drivers.map((driver) => (
-                        <DriverCard key={driver.id} driver={driver} onEdit={handleEdit} />
-                    ))}{drivers.map((driver) => (
-                        <DriverCard key={driver.id} driver={driver} onEdit={handleEdit} />
-                    ))}{drivers.map((driver) => (
-                        <DriverCard key={driver.id} driver={driver} onEdit={handleEdit} />
-                    ))}{drivers.map((driver) => (
-                        <DriverCard key={driver.id} driver={driver} onEdit={handleEdit} />
                     ))}
                 </div>
             </div>

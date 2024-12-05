@@ -13,7 +13,7 @@ const DriverForm = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [modalType, setModalType] = useState('');
-    const user = useSelector((state) => state.user.user); // Obtendo o local_id do Redux
+    const user = useSelector((state) => state.user.user);
 
     const handleCpfChange = (event) => {
         const inputValue = event.target.value.replace(/\D/g, ''); // Apenas números
@@ -88,9 +88,14 @@ const DriverForm = () => {
                     placeholder="000.000.000-00"
                 />
                 <PasswordInput value={password} disabled />
-                <Button variant="primary" type="submit">
-                    Enviar
-                </Button>
+                <div>
+                    <a href="./condutores" style={{ marginRight: '10px' }}>
+                        Voltar
+                    </a>
+                    <Button variant="primary" type="submit">
+                        Enviar
+                    </Button>
+                </div>
             </Form>
 
             <MessageModal
