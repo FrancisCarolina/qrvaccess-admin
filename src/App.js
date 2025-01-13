@@ -8,6 +8,7 @@ import DriversPage from './pages/Drivers';
 import NewDriversPage from './pages/NewDriver';
 import VehiclesPage from './pages/Vehicle';
 import EditDriverPage from './pages/EditDriver';
+import Perfil from './pages/Perfil';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/perfil" element={<Perfil />} />
         <Route path="/novoCondutor" element={<NewDriversPage />} />
         <Route path="/condutores" element={<DriversPage />} />
         <Route path="/veiculos" element={<VehiclesPage />} />
