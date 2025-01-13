@@ -10,7 +10,7 @@ const VehicleCard = ({ vehicle }) => {
     return (
         <Card className="vehicle-card mb-3 shadow-sm">
             <Card.Body>
-                <Card.Title>{vehicle.modelo} - {vehicle.Condutor.nome}</Card.Title>
+                <Card.Title>{vehicle.modelo} - {vehicle.Condutor?.nome}</Card.Title>
                 <Card.Text>Placa: {vehicle.placa}</Card.Text>
                 <Card.Text>Marca: {vehicle.marca}</Card.Text>
                 <Card.Text>Cor: {vehicle.cor}</Card.Text>

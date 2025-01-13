@@ -14,11 +14,18 @@ const driverSlice = createSlice({
     clearDrivers: (state) => {
       state.drivers = [];
     },
+    updateDriver: (state, action) => {
+      const { id, updatedDriver } = action.payload;
+      const index = state.drivers.findIndex((driver) => driver.id === id);
+      if (index !== -1) {
+        state.drivers[index] = { ...state.drivers[index], ...updatedDriver };
+      }
+    },
   },
 });
 
 export const selectDrivers = (state) => state.drivers.drivers;
 
-export const { setDrivers, clearDrivers } = driverSlice.actions;
+export const { setDrivers, clearDrivers, updateDriver } = driverSlice.actions;
 
 export default driverSlice.reducer;

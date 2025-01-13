@@ -9,12 +9,12 @@ const DriverCard = ({ driver, onEdit }) => {
             <Card.Body>
                 <Card.Title>Nome: {driver.nome}</Card.Title>
                 <Card.Text>CPF: {driver.cpf}</Card.Text>
-                <Card.Text>Login: {driver.Usuario.login}</Card.Text>
+                <Card.Text>Login: {driver.Usuario?.login}</Card.Text>
                 <div className="d-flex justify-content-between">
                     <Card.Text>
                         Status: {driver.ativo ? 'Ativo' : 'Inativo'}
                     </Card.Text>
-                    <Button variant="outline-primary" onClick={() => onEdit(driver.id)} className="d-flex align-items-center">
+                    <Button variant="outline-primary" onClick={() => onEdit(driver.Usuario?.id)} className="d-flex align-items-center">
                         <FaEdit className="me-2" />
                         Editar
                     </Button>

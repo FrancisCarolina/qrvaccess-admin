@@ -46,7 +46,7 @@ const DriversPage = () => {
     }, [user, drivers, dispatch]);
 
     const handleEdit = (driverId) => {
-        console.log(`Editar condutor com ID: ${driverId}`);
+        navigate(`/condutores/${driverId}/editar`);
     };
 
     const handleCreateDriver = () => {
@@ -62,7 +62,7 @@ const DriversPage = () => {
             <h2 className='mb-4'>Meus Condutores</h2>
             <div className="cards-scroll-container">
                 <div className="driver-cards-container">
-                    {drivers.map((driver) => (
+                    {drivers && drivers.map((driver) => (
                         <DriverCard key={driver.id} driver={driver} onEdit={handleEdit} />
                     ))}
                 </div>

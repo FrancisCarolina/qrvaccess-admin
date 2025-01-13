@@ -43,14 +43,18 @@ const VehiclesPage = () => {
 
     return (
         <Layout>
-            <h2 className='mb-4'>Meus Veículos</h2>
-            <div className="cards-scroll-container">
-                <div className="vehicle-cards-container">
-                    {vehicles.map((vehicle) => (
-                        <VehicleCard key={vehicle.id} vehicle={vehicle} />
-                    ))}
+            <h2 className='mb-4'>Gerenciamento de Veículos</h2>
+            {vehicles.length === 0 ? (
+                <div className="no-vehicles-message">Nenhum veículo encontrado.</div>
+            ) : (
+                <div className="cards-scroll-container">
+                    <div className="vehicle-cards-container">
+                        {vehicles.map((vehicle) => (
+                            <VehicleCard key={vehicle.id} vehicle={vehicle} />
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </Layout>
     );
 };

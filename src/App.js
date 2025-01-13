@@ -7,6 +7,7 @@ import HomePage from './pages/Home';
 import DriversPage from './pages/Drivers';
 import NewDriversPage from './pages/NewDriver';
 import VehiclesPage from './pages/Vehicle';
+import EditDriverPage from './pages/EditDriver';
 
 const App = () => {
   return (
@@ -18,6 +19,8 @@ const App = () => {
         <Route path="/novoCondutor" element={<NewDriversPage />} />
         <Route path="/condutores" element={<DriversPage />} />
         <Route path="/veiculos" element={<VehiclesPage />} />
+        <Route path="/condutores/:idUser/editar" element={<EditDriverPage />} />
+
       </Routes>
     </Router>
   );
