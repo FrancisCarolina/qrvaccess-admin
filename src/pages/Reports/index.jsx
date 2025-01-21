@@ -114,11 +114,11 @@ const ReportsPage = () => {
             positionY += lineHeight;
 
             condutor.Veiculos.forEach((veiculo) => {
-                const veiculoText = `  Veículo: ${veiculo.modelo} (${veiculo.placa}) - Marca: ${veiculo.marca}`;
-                pdfDoc.text(10, positionY, veiculoText);
-                positionY += lineHeight;
-
                 if (veiculo.Historicos.length) {
+                    const veiculoText = `  Veículo: ${veiculo.modelo} (${veiculo.placa}) - Marca: ${veiculo.marca}`;
+                    pdfDoc.text(10, positionY, veiculoText);
+                    positionY += lineHeight;
+
                     veiculo.Historicos.forEach((historico) => {
                         const historicoText = `    Entrada: ${new Date(
                             historico.data_entrada
@@ -134,15 +134,6 @@ const ReportsPage = () => {
                             positionY = 10; // Resetar posição para o topo
                         }
                     });
-                } else {
-                    const semHistoricoText = "    Sem histórico disponível";
-                    pdfDoc.text(10, positionY, semHistoricoText);
-                    positionY += lineHeight;
-
-                    if (positionY > pageHeight - 20) {
-                        pdfDoc.addPage();
-                        positionY = 10;
-                    }
                 }
             });
 
