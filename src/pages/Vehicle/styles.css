@@ -6,7 +6,8 @@
 }
 
 .cards-scroll-container {
-    max-height: 470px;
+    max-height: 480px;
+    padding-right: 10px;
     overflow-y: auto;
 }
 
