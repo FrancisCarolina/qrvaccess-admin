@@ -4,6 +4,9 @@ import { jsPDF } from 'jspdf';
 import './styles.css';
 import Layout from '../../components/Layout';
 import { useSelector } from 'react-redux';
+import MonthFilter from '../../components/MonthFilter';
+import DateFilter from '../../components/DateFilter';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 
 const ReportsPage = () => {
     const [filterType, setFilterType] = useState('daily');
@@ -17,14 +20,13 @@ const ReportsPage = () => {
     const currentMonth = currentDate.getMonth() + 1;
     const currentDay = currentDate.toISOString().split('T')[0];
 
-    const months = [
-        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-    ];
 
     const handleFilterChange = (type) => {
         setFilterType(type);
         setIsButtonEnabled(false);
+        setSelectedDate("");
+        setSelectedMonth("");
+        setSelectedYear(new Date().getFullYear());
     };
 
     const handleDateChange = (e) => {
@@ -64,7 +66,6 @@ const ReportsPage = () => {
             }
 
             const baseUrl = `${process.env.REACT_APP_API_URL}/historico/local`;
-            // Supondo que você armazena os dados do usuário no localStorage
             const localId = user?.Local?.id;
 
             if (!localId) {
@@ -75,8 +76,7 @@ const ReportsPage = () => {
             const url = `${baseUrl}/${localId}`;
             const params = { type: filterType };
 
-            // Adiciona os parâmetros conforme o tipo de filtro
-            if (filterType === 'daily') params.date = selectedDate;
+            if (filterType === 'daily' || filterType === 'weekly') params.date = selectedDate;
             if (filterType === 'monthly') {
                 params.month = selectedMonth;
                 params.year = selectedYear;
@@ -107,24 +107,29 @@ const ReportsPage = () => {
 
         sortedData.forEach((item) => {
             const condutor = item.Condutor;
+            const title = `Período Selecionado: ${filterType === 'daily' ? "Diário" : filterType === 'weekly' ? "Semanal" : "Mensal"}`
+            pdfDoc.text(10, positionY, title);
+            positionY += lineHeight;
 
             // Adicionar condutor
-            const condutorText = `Condutor: ${condutor.nome} (CPF: ${condutor.cpf})`;
+            const condutorText = `Condutor: ${condutor.nome}(CPF: ${condutor.cpf})`;
             pdfDoc.text(10, positionY, condutorText);
             positionY += lineHeight;
 
             condutor.Veiculos.forEach((veiculo) => {
                 if (veiculo.Historicos.length) {
-                    const veiculoText = `  Veículo: ${veiculo.modelo} (${veiculo.placa}) - Marca: ${veiculo.marca}`;
+                    const veiculoText = `  Veículo: ${veiculo.modelo}(${veiculo.placa}) - ${veiculo.marca}`;
                     pdfDoc.text(10, positionY, veiculoText);
                     positionY += lineHeight;
 
                     veiculo.Historicos.forEach((historico) => {
                         const historicoText = `    Entrada: ${new Date(
                             historico.data_entrada
-                        ).toLocaleString()} - Saída: ${new Date(
-                            historico.data_saida
-                        ).toLocaleString()}`;
+                        ).toLocaleString()
+                            } - Saída: ${new Date(
+                                historico.data_saida
+                            ).toLocaleString()
+                            }`;
                         pdfDoc.text(10, positionY, historicoText);
                         positionY += lineHeight;
 
@@ -153,80 +158,73 @@ const ReportsPage = () => {
 
     return (
         <Layout>
-            <h2>Relatório de Veículos</h2>
-            <div className="filter-container">
-                <label>
-                    <input
-                        type="radio"
-                        value="daily"
-                        checked={filterType === 'daily'}
-                        onChange={() => handleFilterChange('daily')}
-                    />
-                    Diário
-                </label>
-                <label>
-                    <input
-                        type="radio"
-                        value="weekly"
-                        checked={filterType === 'weekly'}
-                        onChange={() => handleFilterChange('weekly')}
-                    />
-                    Semanal
-                </label>
-                <label>
-                    <input
-                        type="radio"
-                        value="monthly"
-                        checked={filterType === 'monthly'}
-                        onChange={() => handleFilterChange('monthly')}
-                    />
-                    Mensal
-                </label>
-            </div>
+            <h2 className="mb-4">Relatório de Veículos</h2>
 
-            {filterType === 'daily' && (
-                <input
-                    type="date"
-                    value={selectedDate}
-                    max={currentDay}
-                    onChange={handleDateChange}
+            <Form.Group className="mb-3">
+                <Row>
+                    <Col>
+                        <Form.Check
+                            type="radio"
+                            id="dailyFilter"
+                            name="filter"
+                            value="daily"
+                            label="Diário"
+                            checked={filterType === 'daily'}
+                            onChange={() => handleFilterChange('daily')}
+                        />
+                    </Col>
+                    <Col>
+                        <Form.Check
+                            type="radio"
+                            id="weeklyFilter"
+                            name="filter"
+                            value="weekly"
+                            label="Semanal"
+                            checked={filterType === 'weekly'}
+                            onChange={() => handleFilterChange('weekly')}
+                        />
+                    </Col>
+                    <Col>
+                        <Form.Check
+                            type="radio"
+                            id="monthlyFilter"
+                            name="filter"
+                            value="monthly"
+                            label="Mensal"
+                            checked={filterType === 'monthly'}
+                            onChange={() => handleFilterChange('monthly')}
+                        />
+                    </Col>
+                </Row>
+            </Form.Group>
+
+            {(filterType === 'daily' || filterType === 'weekly') && (
+                <DateFilter
+                    selectedDate={selectedDate}
+                    currentDay={currentDay}
+                    handleDateChange={handleDateChange}
                 />
             )}
 
             {filterType === 'monthly' && (
-                <div className="monthly-filter">
-                    <select value={selectedMonth} onChange={handleMonthChange}>
-                        <option value="">Selecione o mês</option>
-                        {months.map((month, index) => (
-                            <option
-                                key={index}
-                                value={index + 1}
-                                disabled={
-                                    selectedYear === currentYear && index + 1 > currentMonth
-                                }
-                            >
-                                {month}
-                            </option>
-                        ))}
-                    </select>
-                    <input
-                        type="number"
-                        value={selectedYear}
-                        onChange={handleYearChange}
-                        min="2000"
-                        max={currentYear}
-                        placeholder="Ano"
-                    />
-                </div>
+                <MonthFilter
+                    selectedMonth={selectedMonth}
+                    handleMonthChange={handleMonthChange}
+                    selectedYear={selectedYear}
+                    currentYear={currentYear}
+                    currentMonth={currentMonth}
+                    handleYearChange={handleYearChange}
+                />
             )}
 
-            <button
+            <Button
+                variant="primary"
                 disabled={!isButtonEnabled}
                 onClick={generateReport}
-                className="generate-button"
+                className="mt-4"
             >
                 GERAR RELATÓRIO
-            </button>
+            </Button>
         </Layout>
     );
 };
