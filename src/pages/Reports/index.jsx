@@ -105,31 +105,69 @@ const ReportsPage = () => {
         const pageHeight = 297; // Altura padrão da página A4 em mm
         const lineHeight = 10; // Altura de cada linha de texto
 
-        sortedData.forEach((item) => {
-            const condutor = item.Condutor;
-            const title = `Período Selecionado: ${filterType === 'daily' ? "Diário" : filterType === 'weekly' ? "Semanal" : "Mensal"}`
-            pdfDoc.text(10, positionY, title);
+        const title = `Relatório ${filterType === 'daily' ? "Diário" : filterType === 'weekly' ? "Semanal" : "Mensal"} - ${user?.Local?.nome}`
+        pdfDoc.setFont('helvetica', 'bold'); // Título em negrito
+        pdfDoc.setFontSize(16);
+        pdfDoc.text(10, positionY, title);
+        positionY += lineHeight;
+
+        if (filterType === 'monthly') {
+            // Obter o nome do mês a partir de selectedMonth e selectedYear
+            const monthDate = new Date(selectedYear, selectedMonth - 1); // selectedMonth deve ser um número (1-12)
+            const monthName = new Intl.DateTimeFormat('pt-BR', { month: 'long' }).format(monthDate);
+            const date = `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} de ${selectedYear}`; // Capitaliza o nome do mês
+            pdfDoc.text(10, positionY, date);
             positionY += lineHeight;
 
+        } else if (filterType === 'daily') {
+            const startDate = new Date(selectedDate);
+            startDate.setDate(startDate.getDate() + 1);
+            const formattedDate = new Intl.DateTimeFormat('pt-BR').format(new Date(startDate));
+            const date = `Dia selecionado: ${formattedDate}`;
+            pdfDoc.text(10, positionY, date);
+            positionY += lineHeight;
+
+        } else if (filterType === 'weekly') {
+            const startDate = new Date(selectedDate);
+            startDate.setDate(startDate.getDate() + 1);
+            const endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 6);
+
+            const formattedStartDate = new Intl.DateTimeFormat('pt-BR').format(startDate);
+            const formattedEndDate = new Intl.DateTimeFormat('pt-BR').format(endDate);
+
+            const date = `Semana: ${formattedStartDate} até ${formattedEndDate}`;
+            pdfDoc.text(10, positionY, date);
+            positionY += lineHeight;
+        }
+
+        sortedData.forEach((item) => {
+            const condutor = item.Condutor;
+
             // Adicionar condutor
-            const condutorText = `Condutor: ${condutor.nome}(CPF: ${condutor.cpf})`;
+            const condutorText = `Condutor: ${condutor.nome} (CPF: ${condutor.cpf})`;
+            pdfDoc.setFont('helvetica', 'bold'); // Título em negrito
+            pdfDoc.setFontSize(12);
             pdfDoc.text(10, positionY, condutorText);
             positionY += lineHeight;
 
             condutor.Veiculos.forEach((veiculo) => {
                 if (veiculo.Historicos.length) {
                     const veiculoText = `  Veículo: ${veiculo.modelo}(${veiculo.placa}) - ${veiculo.marca}`;
+                    pdfDoc.setFont('helvetica', 'bold');
+                    pdfDoc.setFontSize(10);
                     pdfDoc.text(10, positionY, veiculoText);
                     positionY += lineHeight;
 
                     veiculo.Historicos.forEach((historico) => {
-                        const historicoText = `    Entrada: ${new Date(
+                        const historicoText = `        Entrada: ${new Date(
                             historico.data_entrada
                         ).toLocaleString()
-                            } - Saída: ${new Date(
+                            }               Saída: ${new Date(
                                 historico.data_saida
                             ).toLocaleString()
                             }`;
+                        pdfDoc.setFont('helvetica', 'normal');
                         pdfDoc.text(10, positionY, historicoText);
                         positionY += lineHeight;
 
@@ -139,6 +177,7 @@ const ReportsPage = () => {
                             positionY = 10; // Resetar posição para o topo
                         }
                     });
+                    positionY += lineHeight;
                 }
             });
 
