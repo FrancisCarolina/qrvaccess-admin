@@ -4,6 +4,16 @@
     min-width: 350px;
 }
 
+.disabled-card {
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+.disabled-card .card-body {
+    opacity: 0.6;
+}
+
 @media (max-width: 768px) {
     .vehicle-card {
         flex: 1 1 100%;

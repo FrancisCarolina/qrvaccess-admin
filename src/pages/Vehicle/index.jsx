@@ -120,7 +120,7 @@ const VehiclesPage = () => {
                             {vehiclesPresent.length > 0 && <h3 className="section-title">Outros Veículos</h3>}
                             <div className="vehicle-cards-container">
                                 {otherVehicles.map((vehicle) => (
-                                    <VehicleCard key={vehicle.id} vehicle={vehicle} />
+                                    <VehicleCard key={vehicle.id} vehicle={vehicle} disabled={vehiclesPresent.length > 0} />
                                 ))}
                             </div>
                         </>
