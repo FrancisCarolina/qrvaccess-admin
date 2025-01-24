@@ -160,13 +160,12 @@ const ReportsPage = () => {
                     positionY += lineHeight;
 
                     veiculo.Historicos.forEach((historico) => {
-                        const historicoText = `        Entrada: ${new Date(
-                            historico.data_entrada
-                        ).toLocaleString()
-                            }               Saída: ${new Date(
-                                historico.data_saida
-                            ).toLocaleString()
-                            }`;
+                        const entradaTexto = `        Entrada: ${new Date(historico.data_entrada).toLocaleString()}`;
+                        const saidaTexto = historico.data_saida
+                            ? `               Saída: ${new Date(historico.data_saida).toLocaleString()}`
+                            : '               Saída: SEM SAÍDA REGISTRADA';
+
+                        const historicoText = `${entradaTexto}${saidaTexto}`;
                         pdfDoc.setFont('helvetica', 'normal');
                         pdfDoc.text(10, positionY, historicoText);
                         positionY += lineHeight;
