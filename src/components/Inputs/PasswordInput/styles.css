@@ -1,0 +1,42 @@
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.input-password {
+    width: 100%;
+    padding: 10px 40px 10px 10px;
+    /* Aumenta o espaço à direita para o botão de olho */
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #000;
+    /* Mude conforme sua preferência */
+    box-sizing: border-box;
+    color: #fff;
+}
+
+.input-password:focus {
+
+    outline: none;
+    border: 1px solid #9772ec;
+}
+
+.eye-button {
+    position: absolute;
+    right: 10px;
+    /* Distância da borda direita do input */
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ccc;
+    /* Cor do ícone, ajuste conforme necessário */
+}
+
+.eye-button:hover {
+    color: #9772ec;
+    /* Muda a cor ao passar o mouse, ajuste conforme necessário */
+}

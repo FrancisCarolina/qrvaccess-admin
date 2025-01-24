@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import PasswordInput from '../Inputs/PasswordInput';
+import PasswordInput from '../../Inputs/PasswordInput';
 import { Link } from 'react-router-dom'; // Importa o componente
+import './styles.css'
 
 const LoginForm = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -12,21 +13,24 @@ const LoginForm = ({ onLogin }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-5 w-25 mx-auto">
-      <div className="mb-3">
-        <label htmlFor="email" className="form-label">Email:</label>
+    <form onSubmit={handleSubmit} className="login-form">
+      <h1>Login</h1>
+      <p>Entre com seu login e senha!</p>
+
+      <div className="form-group">
+        <label htmlFor="email" className="label">E-mail:</label>
         <input
           type="email"
-          className="form-control"
           id="email"
+          className="input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
       </div>
 
-      <div className="mb-3">
-        <label htmlFor="password" className="form-label">Senha:</label>
+      <div className="form-group">
+        <label htmlFor="password" className="label">Senha:</label>
         <PasswordInput
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -34,12 +38,11 @@ const LoginForm = ({ onLogin }) => {
         />
       </div>
 
-      <button type="submit" className="btn btn-primary w-100">Entrar</button>
+      <button type="submit" className="button">Entrar</button>
 
-      <div className="mt-3 text-center">
-        <p>Não tem uma conta? <Link to="/register">Cadastre-se aqui</Link></p>
+      <div className="register">
+        <p>Não tem uma conta? <Link to="/register" className="link">Cadastre-se aqui</Link></p>
       </div>
-
     </form>
   );
 };

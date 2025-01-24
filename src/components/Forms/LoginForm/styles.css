@@ -1,0 +1,85 @@
+.login-section {
+    flex: 4;
+    /* 40% da largura */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #393939;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo do formulário de login */
+.login-form {
+    width: 80%;
+    max-width: 400px;
+    color: #fff;
+}
+
+.login-form h1 {
+    font-size: 2rem;
+    margin-bottom: 2px;
+}
+
+.login-form p {
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #fff;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+    border: 1px solid #9772ec;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Estilo para os labels */
+.label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #6950a5;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #584389;
+}
+
+.link {
+    color: #9772ec;
+}
+
+.link:hover {
+    color: #785abd;
+}
+
+
+.register {
+    display: flex;
+    justify-content: center;
+}

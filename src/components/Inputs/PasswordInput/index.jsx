@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import './styles.css'
 
 const PasswordInput = ({ value, onChange, required, disabled = false }) => {
     const [showPassword, setShowPassword] = useState(false);
@@ -17,10 +18,10 @@ const PasswordInput = ({ value, onChange, required, disabled = false }) => {
     };
 
     return (
-        <div className="input-group mb-3">
+        <div className="input-container">
             <input
                 type={showPassword ? 'text' : 'password'}
-                className="form-control"
+                className="input-password"
                 value={value}
                 onChange={onChange}
                 required={required}
@@ -28,7 +29,7 @@ const PasswordInput = ({ value, onChange, required, disabled = false }) => {
             />
             <button
                 type="button"
-                className="btn btn-outline-secondary"
+                className="eye-button"
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave}

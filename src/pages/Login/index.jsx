@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LoginForm from '../../components/Forms/LoginForm';
+import LoginForm from '../../components/Forms/LoginForm/LoginForm';
 import axios from 'axios';
 import { logar, verificaSeLogado } from '../../utils/auth';
 import MessageModal from '../../components/Modal';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/userSlice';
+import './styles.css'
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -66,18 +67,26 @@ const LoginPage = () => {
 
   return (
     !verificaSeLogado() ? (
-      <div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
-        <h2 className="mb-4">Login</h2>
-        <LoginForm onLogin={handleLogin} />
+      <div className="container-login">
+        <div className="image-section">
+          <img
+            src={`${process.env.PUBLIC_URL}/QR_VAccess_logo.png`}
+            alt="Imagem de exemplo"
+            className="image"
+          />
+        </div>
+        <div className="login-section">
+          <LoginForm onLogin={handleLogin} />
 
-        {/* Modal de mensagem */}
-        <MessageModal
-          showModal={showModal}
-          handleClose={handleCloseModal}
-          title={modalType === 'success' ? 'Sucesso' : 'Erro'}
-          message={modalMessage}
-          type={modalType}
-        />
+          {/* Modal de mensagem */}
+          <MessageModal
+            showModal={showModal}
+            handleClose={handleCloseModal}
+            title={modalType === 'success' ? 'Sucesso' : 'Erro'}
+            message={modalMessage}
+            type={modalType}
+          />
+        </div>
       </div>
     ) : null
   );

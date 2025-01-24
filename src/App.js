@@ -10,6 +10,7 @@ import VehiclesPage from './pages/Vehicle';
 import EditDriverPage from './pages/EditDriver';
 import Perfil from './pages/Perfil';
 import ReportsPage from './pages/Reports';
+import './App.css'
 
 const App = () => {
   return (
