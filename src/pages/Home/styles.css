@@ -1,0 +1,136 @@
+/* Estilo para o layout principal */
+.container-home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2a2a2a;
+    flex-direction: column;
+    padding: 20px;
+    padding-bottom: 80px;
+}
+
+/* Estilo do card que contém o gráfico e o botão */
+.container-home .card {
+    background-color: #3a353e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    text-align: center;
+}
+
+/* Título do card */
+.container-home .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #7f60c6;
+    margin-bottom: 20px;
+}
+
+/* Estilo do botão "Mais Relatórios" */
+.container-home .report-button {
+    background-color: #6950a5;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.container-home .report-button:hover {
+    background-color: #5a4690;
+}
+
+.container-home .report-button:focus {
+    outline: none;
+}
+
+/* Ajustes para o gráfico */
+.chart {
+    margin-top: 20px;
+}
+
+.home-extras {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 1200px;
+    flex-direction: column;
+}
+
+.home-extras .extras-titulo {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.home-extras>div {
+    flex: 1 1 30%;
+    margin: 10px;
+}
+
+.home-extras h2 {
+    font-size: 22px;
+    color: #6950a5;
+    margin-bottom: 10px;
+}
+
+.home-extras p {
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.home-extras .situacao-home {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.card-situacao {
+    background-color: #3a353e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-situacao div {
+    font-size: 30px;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.card-situacao .titulo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #8665d4;
+    margin-bottom: 10px;
+}
+
+.card-situacao p {
+    font-size: 16px;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.card-situacao button {
+    background-color: #6950a5;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.card-situacao button:hover {
+    background-color: #5c4492;
+}

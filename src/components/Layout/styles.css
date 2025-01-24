@@ -1,6 +1,7 @@
 .container-layout {
     display: flex;
     height: 100vh;
+    overflow-y: hidden;
 }
 
 /* Menu lateral */
@@ -29,6 +30,8 @@
 .imagem-layout {
     display: flex;
     justify-content: center;
+    cursor: pointer;
+
 }
 
 .logo {
@@ -115,7 +118,8 @@
 }
 
 .principal-content {
-    padding: 20px;
+    overflow-y: auto;
+    height: 100%;
 }
 
 .dropdown-menu-fixed {

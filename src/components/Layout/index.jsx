@@ -61,13 +61,23 @@ const Layout = ({ children }) => {
         navigate('/perfil');
     };
 
+    // Função para navegação para a página principal
+    const handleLogoClick = () => {
+        navigate('/');
+    };
+
     return (
         verificaSeLogado() ? (
             <div className="container-layout">
                 {/* Menu Lateral */}
                 <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
                     <div className='imagem-layout'>
-                        <img src="/QR_VAccess.png" alt="QR-VAccess" className="logo-img" />
+                        <img
+                            src="/QR_VAccess.png"
+                            alt="QR-VAccess"
+                            className="logo-img"
+                            onClick={handleLogoClick}
+                        />
                     </div>
                     <div className="sidebar-header">
                         <div className="sidebar-toggle" onClick={toggleMenu}>
