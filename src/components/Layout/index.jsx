@@ -1,25 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { deslogar, verificaSeLogado } from '../../utils/auth';
-import { Dropdown, Nav } from 'react-bootstrap';
-import { FaBell, FaUserCircle } from 'react-icons/fa';
+import { FaCar, FaUser, FaClipboardList, FaAngleRight, FaAngleLeft, FaUserCircle } from 'react-icons/fa';
 import { setUser } from '../../redux/userSlice';
 import { logoutUser } from '../../redux/userSlice';
 import { clearDrivers } from '../../redux/driverSlice';
-import './styles.css'; // Arquivo CSS para estilos personalizados
+import Dropdown from 'react-bootstrap/Dropdown';
+import './styles.css';
 
 const Layout = ({ children }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [notifications] = React.useState(1);
+    const [collapsed, setCollapsed] = useState(false);
 
     const user = useSelector((state) => state.user.user);
 
     useEffect(() => {
-        console.log(user);
-
         if (!verificaSeLogado()) {
             navigate('/login');
         }
@@ -47,6 +45,10 @@ const Layout = ({ children }) => {
         }
     }, [navigate, dispatch, user]);
 
+    const toggleMenu = () => {
+        setCollapsed(!collapsed);
+    };
+
     const handleLogout = () => {
         dispatch(logoutUser());
         dispatch(clearDrivers());
@@ -55,46 +57,56 @@ const Layout = ({ children }) => {
         navigate('/login');
     };
 
-    const handleNotificationsClick = () => {
-        alert('Aqui estão suas notificações');
-    };
-
-    const handleViewProfile = () => {
+    const handleProfileClick = () => {
         navigate('/perfil');
     };
 
     return (
         verificaSeLogado() ? (
-            <div className="layout">
-                <header className="navbar navbar-light bg-light shadow-sm p-3 mb-3 d-flex justify-content-between">
-                    <div className="navbar-left">
-                        <h2 onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-                            {user?.Local?.nome || 'Meu Local'}
-                        </h2>
+            <div className="container-layout">
+                {/* Menu Lateral */}
+                <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+                    <div className='imagem-layout'>
+                        <img src="/QR_VAccess.png" alt="QR-VAccess" className="logo-img" />
                     </div>
-                    <Nav className="navbar-center d-flex">
-                        <Nav.Link className="nav-item-hover" onClick={() => navigate('/condutores')}>Condutores</Nav.Link>
-                        <Nav.Link className="nav-item-hover" onClick={() => navigate('/veiculos')}>Veículos</Nav.Link>
-                        <Nav.Link className="nav-item-hover" onClick={() => navigate('/relatorios')}>Relatórios</Nav.Link>
-                    </Nav>
-                    <div className="navbar-right d-flex align-items-center">
-                        <button onClick={handleNotificationsClick} className="btn btn-link">
-                            <FaBell size={24} />
-                            {notifications > 0 && <span className="badge bg-danger">{notifications}</span>}
-                        </button>
-                        <Dropdown align="end">
-                            <Dropdown.Toggle variant="link" id="dropdown-profile">
-                                <FaUserCircle size={24} />
-                            </Dropdown.Toggle>
+                    <div className="sidebar-header">
+                        <div className="sidebar-toggle" onClick={toggleMenu}>
+                            {collapsed ? <FaAngleRight /> : <FaAngleLeft />}
+                        </div>
+                    </div>
 
-                            <Dropdown.Menu>
-                                <Dropdown.Item onClick={handleViewProfile}>Ver Perfil</Dropdown.Item>
+                    <ul className="sidebar-menu">
+                        <li className={collapsed ? 'li-center' : ''} onClick={() => navigate('/veiculos')}>
+                            <FaCar />
+                            {!collapsed && <span>Veículos</span>}
+                        </li>
+                        <li className={collapsed ? 'li-center' : ''} onClick={() => navigate('/condutores')}>
+                            <FaUser />
+                            {!collapsed && <span>Condutores</span>}
+                        </li>
+                        <li className={collapsed ? 'li-center' : ''} onClick={() => navigate('/relatorios')}>
+                            <FaClipboardList />
+                            {!collapsed && <span>Relatórios</span>}
+                        </li>
+                    </ul>
+                </div>
+
+                {/* Conteúdo Principal */}
+                <div className="content-layout">
+                    <div className="top-menu-layout">
+                        <span>Administrador - {user?.Local?.nome || 'Meu Local'}</span>
+                        <Dropdown drop="start">
+                            <Dropdown.Toggle as={FaUserCircle} className="profile-icon" />
+                            <Dropdown.Menu className="dropdown-menu-fixed">
+                                <Dropdown.Item onClick={handleProfileClick}>Perfil</Dropdown.Item>
                                 <Dropdown.Item onClick={handleLogout}>Deslogar</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                </header>
-                <main className='layout-content'>{children}</main>
+                    <div className="principal-content">
+                        {children}
+                    </div>
+                </div>
             </div>
         ) : null
     );

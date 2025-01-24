@@ -1,14 +1,129 @@
-.nav-item-hover {
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
+.container-layout {
+    display: flex;
+    height: 100vh;
+}
+
+/* Menu lateral */
+.sidebar {
+    width: 260px;
+    background-color: #333;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 20px;
+    transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+    width: 90px;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+}
+
+.imagem-layout {
+    display: flex;
+    justify-content: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 80px;
+    height: 80px;
+}
+
+.sidebar-toggle {
+    color: white;
+    font-size: 26px;
+    cursor: pointer;
+    padding: 0px 20px;
+    text-align: center;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0px 20px;
+    margin-top: 30px;
+}
+
+.sidebar-menu li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
     transition: background-color 0.3s;
+    margin-bottom: 10px;
 }
 
-.nav-item-hover:hover {
-    background-color: #e0e0e0;
-    color: #333;
+.sidebar-menu .li-center {
+    justify-content: center;
 }
 
-.layout-content {
-    padding: 0 40px;
+.sidebar-menu li:hover {
+    background-color: #444;
+}
+
+.sidebar-menu li span {
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+/* Ícones */
+.sidebar-menu li svg {
+    font-size: 20px;
+}
+
+/* Top Menu */
+.top-menu-layout {
+    background-color: #6950a5;
+    display: flex;
+    justify-content: flex-end;
+    /* Alinha itens no canto direito */
+    align-items: center;
+    padding: 20px 30px;
+    /* Adiciona espaçamento interno */
+    color: white;
+    gap: 30px;
+    /* Espaçamento entre os itens */
+}
+
+.profile-icon {
+    cursor: pointer;
+    font-size: 24px;
+    /* Tamanho do ícone */
+    color: white;
+    transition: transform 0.3s;
+}
+
+.profile-icon:hover {
+    transform: scale(1.1);
+    /* Efeito de zoom ao passar o mouse */
+}
+
+/* Conteúdo principal */
+.content-layout {
+    flex-grow: 1;
+}
+
+.principal-content {
+    padding: 20px;
+}
+
+.dropdown-menu-fixed {
+    position: fixed !important;
+    top: 50px;
+    /* Ajuste conforme necessário */
+    right: 20px;
+    /* Define o espaçamento da borda direita */
+    z-index: 1050;
+    /* Garante que o menu esteja acima de outros elementos */
 }
