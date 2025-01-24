@@ -51,21 +51,29 @@ const RegisterPage = () => {
   }
   return (
     !verificaSeLogado() ? (
-      <div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
-        <h2 className="mb-4">Cadastro</h2>
-        <RegisterForm onRegister={handleRegister} />
-
-        <div className="mt-3 text-center">
-          <p>Já tem uma conta? <Link to="/login">Faça login aqui</Link></p>
+      <div className="container-login">
+        <div className="image-section">
+          <img
+            src={`${process.env.PUBLIC_URL}/QR_VAccess_logo.png`}
+            alt="Imagem de exemplo"
+            className="image"
+          />
         </div>
+        <div className="login-section">
+          <RegisterForm onRegister={handleRegister} />
 
-        <MessageModal
-          showModal={showModal}
-          handleClose={handleCloseModal}
-          title={modalType === 'success' ? 'Sucesso' : 'Erro'}
-          message={modalMessage}
-          type={modalType}
-        />
+          <div className="register">
+            <p>Já tem uma conta?  <Link to="/" className="link">Faça login aqui</Link></p>
+          </div>
+
+          <MessageModal
+            showModal={showModal}
+            handleClose={handleCloseModal}
+            title={modalType === 'success' ? 'Sucesso' : 'Erro'}
+            message={modalMessage}
+            type={modalType}
+          />
+        </div>
       </div>
     ) : null
   );
