@@ -1,41 +1,89 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../../components/Layout';
 import { Chart } from "react-google-charts";
-import { FaUsers, FaCar } from 'react-icons/fa';  // Importando os ícones do react-icons/fa
-import { useNavigate } from 'react-router-dom';  // Importando o hook useNavigate
-import './styles.css'
+import { FaUsers, FaCar } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './styles.css';
 
 const HomePage = () => {
+    const [data, setData] = useState([]);
     const quantidade = 10;
-    const navigate = useNavigate();  // Usando o hook useNavigate para navegação
+    const navigate = useNavigate();
 
-    const data = [
-        ["Dia", "Quantidade"],
-        ["Segunda", 10],
-        ["Terça", 15],
-        ["Quarta", 6],
-        ["Quinta", 11],
-        ["Sexta", 12],
-        ["Sábado", 5],
-        ["Domingo", null],
-    ];
+    const fetchData = async () => {
+        const today = new Date('January 25, 2025 00:00:00');
+        const lastSunday = new Date(today.setDate(today.getDate() - today.getDay())); // Última segunda-feira
+        const formattedDate = lastSunday.toISOString().split('T')[0];
+
+        const token = localStorage.getItem('authToken'); // Recupera o token
+
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_URL}/historico/local/2?type=weekly&date=${formattedDate}`,
+                {
+                    headers: { 'x-access-token': token }, // Adiciona o cabeçalho
+                }
+            );
+            console.log(`${process.env.REACT_APP_API_URL}/historico/local/2?type=weekly&date=${formattedDate}`);
+
+            const historicos = response.data;
+            let countsByDay = {}
+
+            for (let index = 0; index < 7; index++) {
+                const day = new Date(lastSunday);
+                day.setDate(day.getDate() + index);
+                console.log("Day: ", day);
+
+                countsByDay = {
+                    ...countsByDay,
+                    [day.toLocaleDateString('pt-BR', { weekday: 'long' })]: 0
+                }
+
+            }
+
+
+            historicos.forEach((item) => {
+                item.Condutor?.Veiculos.forEach((veiculo) => {
+                    veiculo.Historicos.forEach((historico) => {
+                        const entrada = new Date(historico.data_entrada);
+                        const dayName = entrada.toLocaleDateString('pt-BR', { weekday: 'long' });
+                        console.log(dayName);
+
+                        countsByDay[dayName] += 1;
+                    });
+                });
+            });
+
+            setData([
+                ["Dia", "Quantidade"],
+                ...Object.entries(countsByDay),
+            ]);
+        } catch (error) {
+            console.error("Erro ao buscar dados:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const options = {
-        backgroundColor: "#3a353e", // Cor de fundo do gráfico
+        backgroundColor: "#3a353e",
         hAxis: {
             title: "Mês",
             titleTextStyle: { color: "#8665d4" },
-            textStyle: { color: "#fff" }, // Cor do texto no eixo horizontal
+            textStyle: { color: "#fff" },
         },
         vAxis: {
             minValue: 0,
             title: "Quantidade",
             titleTextStyle: { color: "#8665d4" },
-            textStyle: { color: "#fff" }, // Cor do texto no eixo vertical
+            textStyle: { color: "#fff" },
         },
         chartArea: { width: "80%", height: "70%" },
-        colors: ["#6950a5"], // Cor da linha do gráfico
-        legend: "none", // Esconde a legenda
+        colors: ["#6950a5"],
+        legend: "none",
     };
 
     return (
@@ -52,7 +100,7 @@ const HomePage = () => {
                     />
                     <button
                         className="report-button"
-                        onClick={() => navigate('/relatorios')}  // Navegação para a página de relatórios
+                        onClick={() => navigate('/relatorios')}
                     >
                         Mais Relatórios
                     </button>
@@ -64,16 +112,16 @@ const HomePage = () => {
                     </div>
                     <div className="situacao-home">
                         <div className="card-situacao">
-                            <FaUsers size={40} color="#fff" /> {/* Ícone de pessoas usando react-icons */}
+                            <FaUsers size={40} color="#fff" />
                             <p className="titulo">Condutores Ativos</p>
                             <p>Quantidade de Condutores Ativos no seu Local: {quantidade}</p>
-                            <button onClick={() => navigate('/condutores')}>Saiba Mais</button> {/* Navegação para condutores */}
+                            <button onClick={() => navigate('/condutores')}>Saiba Mais</button>
                         </div>
                         <div className="card-situacao">
-                            <FaCar size={40} color="#fff" /> {/* Ícone de carro usando react-icons */}
+                            <FaCar size={40} color="#fff" />
                             <p className="titulo">Veículos Presentes</p>
                             <p>Quantidade de Veículos Presentes no seu Local: {quantidade}</p>
-                            <button onClick={() => navigate('/veiculos')}>Saiba Mais</button> {/* Navegação para veículos */}
+                            <button onClick={() => navigate('/veiculos')}>Saiba Mais</button>
                         </div>
                     </div>
                 </div>
