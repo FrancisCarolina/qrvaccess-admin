@@ -8,47 +8,50 @@ import './styles.css';
 
 const HomePage = () => {
     const [data, setData] = useState([]);
+    const [chartTitle, setChartTitle] = useState("");
     const quantidade = 10;
     const navigate = useNavigate();
 
     const fetchData = async () => {
-        const today = new Date('January 25, 2025 00:00:00');
-        const lastSunday = new Date(today.setDate(today.getDate() - today.getDay())); // Última segunda-feira
-        const formattedDate = lastSunday.toISOString().split('T')[0];
+        const today = new Date();
+        const lastSunday = new Date(today.setDate(today.getDate() - today.getDay())); // Último domingo
+        const nextSaturday = new Date(lastSunday);
+        nextSaturday.setDate(nextSaturday.getDate() + 6); // Próximo sábado
+
+        const formattedStartDate = lastSunday.toLocaleDateString('pt-BR');
+        const formattedEndDate = nextSaturday.toLocaleDateString('pt-BR');
+
+        // Atualiza o título do gráfico
+        setChartTitle(`De ${formattedStartDate} até ${formattedEndDate}`);
 
         const token = localStorage.getItem('authToken'); // Recupera o token
 
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/historico/local/2?type=weekly&date=${formattedDate}`,
+                `${process.env.REACT_APP_API_URL}/historico/local/2?type=weekly&date=${lastSunday.toISOString().split('T')[0]}`,
                 {
                     headers: { 'x-access-token': token }, // Adiciona o cabeçalho
                 }
             );
-            console.log(`${process.env.REACT_APP_API_URL}/historico/local/2?type=weekly&date=${formattedDate}`);
 
             const historicos = response.data;
-            let countsByDay = {}
+            let countsByDay = {};
 
             for (let index = 0; index < 7; index++) {
                 const day = new Date(lastSunday);
                 day.setDate(day.getDate() + index);
-                console.log("Day: ", day);
 
                 countsByDay = {
                     ...countsByDay,
-                    [day.toLocaleDateString('pt-BR', { weekday: 'long' })]: 0
-                }
-
+                    [day.toLocaleDateString('pt-BR', { weekday: 'long' })]: 0,
+                };
             }
-
 
             historicos.forEach((item) => {
                 item.Condutor?.Veiculos.forEach((veiculo) => {
                     veiculo.Historicos.forEach((historico) => {
                         const entrada = new Date(historico.data_entrada);
                         const dayName = entrada.toLocaleDateString('pt-BR', { weekday: 'long' });
-                        console.log(dayName);
 
                         countsByDay[dayName] += 1;
                     });
@@ -69,17 +72,19 @@ const HomePage = () => {
     }, []);
 
     const options = {
+        title: chartTitle, // Adiciona o título dinâmico
+        titleTextStyle: { color: "#fff", fontSize: 16, fontName: "Consolas", },
         backgroundColor: "#3a353e",
         hAxis: {
             title: "Mês",
-            titleTextStyle: { color: "#8665d4" },
-            textStyle: { color: "#fff" },
+            titleTextStyle: { color: "#8665d4", fontName: "Consolas", },
+            textStyle: { color: "#fff", fontName: "Consolas", },
         },
         vAxis: {
             minValue: 0,
             title: "Quantidade",
-            titleTextStyle: { color: "#8665d4" },
-            textStyle: { color: "#fff" },
+            titleTextStyle: { color: "#8665d4", fontName: "Consolas", },
+            textStyle: { color: "#fff", fontName: "Consolas", },
         },
         chartArea: { width: "80%", height: "70%" },
         colors: ["#6950a5"],
