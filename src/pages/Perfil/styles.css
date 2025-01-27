@@ -72,8 +72,8 @@
     border: 1px solid #9772ec;
 }
 
-.container-perfil button {
-    padding: 10px 25px;
+.container-perfil .edit-perfil-button {
+    padding: 7px 20px;
     border: none;
     border-radius: 4px;
     background-color: #6950a5;
@@ -82,7 +82,7 @@
     transition: background-color 0.2s ease;
 }
 
-.container-perfil button:hover {
+.container-perfil .edit-perfil-button:hover {
     background-color: #5a4690;
 }
 

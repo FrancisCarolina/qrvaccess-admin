@@ -1,23 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-import FormInput from '../../components/Inputs/FormInput';
-import MessageModal from '../../components/Modal';
-import Layout from '../../components/Layout';
 import { useDispatch } from 'react-redux';
 import { updateDriver } from '../../redux/driverSlice';
+import { FaUser, FaCog } from 'react-icons/fa';
+import Layout from '../../components/Layout';
+import MessageModal from '../../components/Modal';
 
 const EditDriverPage = () => {
-    const { idUser } = useParams(); // Captura o ID do condutor da URL
+    const { idUser } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const [name, setName] = useState('');
     const [status, setStatus] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [modalType, setModalType] = useState('');
     const [idCondutor, setIdCondutor] = useState();
+
+    const [editing, setEditing] = useState(null);
+    const [inputValue, setInputValue] = useState('');
+    const cardEditRef = useRef(null);
 
     useEffect(() => {
         const fetchDriver = async () => {
@@ -28,6 +32,7 @@ const EditDriverPage = () => {
                 });
                 const { nome, ativo, id } = response.data;
                 setName(nome);
+                setInputValue(nome);
                 setStatus(ativo);
                 setIdCondutor(id);
             } catch (error) {
@@ -39,12 +44,10 @@ const EditDriverPage = () => {
         };
 
         fetchDriver();
-    }, [idUser, dispatch]);
+    }, [idUser]);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        const updatedDriver = { nome: name, ativo: status };
+    const handleSaveClick = async () => {
+        const updatedDriver = { nome: inputValue || name, ativo: status };
 
         try {
             const token = localStorage.getItem('authToken');
@@ -55,60 +58,113 @@ const EditDriverPage = () => {
             setModalMessage('Condutor atualizado com sucesso.');
             setModalType('success');
             setShowModal(true);
+            setEditing(null);
         } catch (error) {
             console.error('Erro ao atualizar condutor:', error);
-            let errorMessage = 'Erro ao atualizar condutor.';
-            if (error.response && error.response.status === 404) {
-                errorMessage = 'Condutor não encontrado.';
-            }
-            setModalMessage(errorMessage);
+            setModalMessage('Erro ao atualizar condutor.');
             setModalType('error');
             setShowModal(true);
         }
     };
 
+    const handleEditClick = (section) => {
+        setEditing(section);
+        setInputValue('');
+    };
+
+    const handleClickOutside = (event) => {
+        if (cardEditRef.current && !cardEditRef.current.contains(event.target)) {
+            setEditing(null);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const handleCloseModal = () => {
         setShowModal(false);
         if (modalType === 'success') {
-            navigate('/condutores'); // Redireciona após sucesso
+            navigate('/condutores');
         }
     };
 
     return (
         <Layout>
-            <h2>Editar Condutor</h2>
-            <Form onSubmit={handleSubmit}>
-                <FormInput
-                    label="Nome"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <Form.Group>
-                    <Form.Label>Status</Form.Label>
-                    <Form.Check
-                        type="radio"
-                        label="Ativo"
-                        name="status"
-                        checked={status === true}
-                        onChange={() => setStatus(true)}
-                    />
-                    <Form.Check
-                        type="radio"
-                        label="Inativo"
-                        name="status"
-                        checked={status === false}
-                        onChange={() => setStatus(false)}
-                    />
-                </Form.Group>
-                <div className="d-flex justify-content-between">
-                    <Button variant="secondary" onClick={() => navigate('/condutores')}>
-                        Voltar
-                    </Button>
-                    <Button variant="primary" type="submit">
-                        Atualizar
-                    </Button>
+            <div className="container-perfil">
+                <h2>Detalhamento do Condutor</h2>
+                <section>
+                    <div>Nome:</div>
+                    <div>{name}</div>
+                </section>
+                <section>
+                    <div>Status:</div>
+                    <div>{status ? 'Ativo' : 'Inativo'}</div>
+                </section>
+                <div className="card-perfil">
+                    {editing === 'nome' ? (
+                        <div className="card-edit" ref={cardEditRef}>
+                            <label htmlFor="nome">Novo nome do Condutor:</label>
+                            <div className="edit-form">
+                                <input
+                                    id="nome"
+                                    type="text"
+                                    value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)}
+                                    placeholder="Digite o novo nome"
+                                />
+                                <button onClick={handleSaveClick} className='edit-perfil-button'>Salvar</button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="card" onClick={() => handleEditClick('nome')}>
+                            <FaUser />
+                            <div>Atualizar nome do Condutor</div>
+                        </div>
+                    )}
+                    {editing === 'status' ? (
+                        <div className="card-edit" ref={cardEditRef}>
+                            <label>Alterar Status:</label>
+                            <div className="edit-form">
+                                <div>
+                                    <input
+                                        type="radio"
+                                        id="ativo"
+                                        name="status"
+                                        value={true}
+                                        checked={status === true}
+                                        onChange={() => setStatus(true)}
+                                    />
+                                    <label htmlFor="ativo">Ativo</label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        id="inativo"
+                                        name="status"
+                                        value={false}
+                                        checked={status === false}
+                                        onChange={() => setStatus(false)}
+                                    />
+                                    <label htmlFor="inativo">Inativo</label>
+                                </div>
+                                <button onClick={handleSaveClick} className='edit-perfil-button'>Salvar</button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="card" onClick={() => handleEditClick('status')}>
+                            <FaCog />
+                            <div>Alterar Status</div>
+                        </div>
+                    )}
                 </div>
-            </Form>
+                <button className="logout-button" onClick={() => navigate('/condutores')}>
+                    Voltar
+                </button>
+            </div>
 
             <MessageModal
                 showModal={showModal}

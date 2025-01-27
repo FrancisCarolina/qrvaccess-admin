@@ -6,11 +6,16 @@ import { setUser } from '../../redux/userSlice';
 import Layout from '../../components/Layout';
 import './styles.css';
 import { FaEnvelope, FaLock, FaMapMarkerAlt } from 'react-icons/fa';
+import PasswordInput from '../../components/Inputs/PasswordInput';
+import { logoutUser } from '../../redux/userSlice';
+import { clearDrivers } from '../../redux/driverSlice';
+import { deslogar } from '../../utils/auth';
 
 const Perfil = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const [editingField, setEditingField] = useState(null);
+    const [password, setPassword] = useState('');
     const [formData, setFormData] = useState({
         login: '',
         role_id: '',
@@ -39,6 +44,14 @@ const Perfil = () => {
         }
     }, [user, navigate]);
 
+    const handleLogout = () => {
+        dispatch(logoutUser());
+        dispatch(clearDrivers());
+
+        deslogar();
+        navigate('/login');
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         if (name.startsWith('local.')) {
@@ -59,9 +72,10 @@ const Perfil = () => {
     };
 
     const handleSaveChanges = async () => {
+
         const updatedUser = {
             login: formData.login,
-            senha: formData.senha,
+            senha: password,
             nome_local: formData.local.nome
         };
 
@@ -92,6 +106,7 @@ const Perfil = () => {
                     nome: user.Local?.nome || ''
                 }
             });
+            setPassword("");
         };
         const handleClickOutside = (event) => {
             if (cardEditRef.current && !cardEditRef.current.contains(event.target)) {
@@ -133,7 +148,7 @@ const Perfil = () => {
                                     onChange={handleChange}
                                     placeholder="Digite o novo login"
                                 />
-                                <button onClick={handleSaveChanges}>Salvar</button>
+                                <button onClick={handleSaveChanges} className='edit-perfil-button'>Salvar</button>
                             </div>
                         </div>
                     ) : (
@@ -146,15 +161,11 @@ const Perfil = () => {
                         <div className="card-edit" ref={cardEditRef}>
                             <label htmlFor="senha">Nova senha:</label>
                             <div className="edit-form">
-                                <input
-                                    id="senha"
-                                    type="password"
-                                    name="senha"
-                                    value={formData.senha}
-                                    onChange={handleChange}
-                                    placeholder="Digite a nova senha"
+                                <PasswordInput
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
-                                <button onClick={handleSaveChanges}>Salvar</button>
+                                <button onClick={handleSaveChanges} className='edit-perfil-button'>Salvar</button>
                             </div>
                         </div>
                     ) : (
@@ -175,7 +186,7 @@ const Perfil = () => {
                                     onChange={handleChange}
                                     placeholder="Digite o novo nome do local"
                                 />
-                                <button onClick={handleSaveChanges}>Salvar</button>
+                                <button onClick={handleSaveChanges} className='edit-perfil-button'>Salvar</button>
                             </div>
                         </div>
                     ) : (
@@ -185,7 +196,7 @@ const Perfil = () => {
                         </div>
                     )}
                 </div>
-                <button className="logout-button">Logout</button>
+                <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
         </Layout>
     );
