@@ -1,0 +1,41 @@
+.card-edit .radio-edit {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-edit .radio-edit .radio-containers {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.card-edit .radio-edit .radio-containers input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.card-edit .radio-edit .radio-containers input[type="radio"]:checked {
+    background-color: #6950a5;
+    border-color: #6950a5;
+}
+
+.card-edit .radio-edit .radio-containers input[type="radio"]:focus {
+    border-color: #6950a5;
+    box-shadow: 0 0 5px #6950a5;
+}
+
+.card-edit .radio-edit .radio-containers label {
+    margin-left: 10px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}

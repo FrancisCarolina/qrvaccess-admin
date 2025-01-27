@@ -1,60 +1,67 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { updateDriver } from '../../redux/driverSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateDriver, selectDrivers } from '../../redux/driverSlice';
 import { FaUser, FaCog } from 'react-icons/fa';
 import Layout from '../../components/Layout';
 import MessageModal from '../../components/Modal';
+import './styles.css';
 
 const EditDriverPage = () => {
     const { idUser } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [name, setName] = useState('');
-    const [status, setStatus] = useState(true);
+    // Acessando o estado do Redux
+    const drivers = useSelector(selectDrivers);
+    const driver = drivers.find((driver) => driver.idUser === Number(idUser));
+
+    const [name, setName] = useState(driver?.nome || '');
+    const [status, setStatus] = useState(driver?.ativo || true);
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [modalType, setModalType] = useState('');
-    const [idCondutor, setIdCondutor] = useState();
-
     const [editing, setEditing] = useState(null);
     const [inputValue, setInputValue] = useState('');
     const cardEditRef = useRef(null);
 
     useEffect(() => {
-        const fetchDriver = async () => {
-            const token = localStorage.getItem('authToken');
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/condutor/user/${idUser}`, {
-                    headers: { 'x-access-token': token },
-                });
-                const { nome, ativo, id } = response.data;
-                setName(nome);
-                setInputValue(nome);
-                setStatus(ativo);
-                setIdCondutor(id);
-            } catch (error) {
-                console.error('Erro ao carregar os dados do condutor:', error);
-                setModalMessage('Erro ao carregar os dados do condutor.');
-                setModalType('error');
-                setShowModal(true);
-            }
-        };
+        if (!driver) {
+            const fetchDriver = async () => {
+                const token = localStorage.getItem('authToken');
+                try {
+                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/condutor/user/${idUser}`, {
+                        headers: { 'x-access-token': token },
+                    });
+                    const { nome, ativo, id } = response.data;
+                    dispatch(updateDriver({ id, updatedDriver: { nome, ativo, idUser: Number(idUser) } }));
+                    setName(nome);
+                    setStatus(ativo);
+                } catch (error) {
+                    console.error('Erro ao carregar os dados do condutor:', error);
+                    setModalMessage('Erro ao carregar os dados do condutor.');
+                    setModalType('error');
+                    setShowModal(true);
+                }
+            };
 
-        fetchDriver();
-    }, [idUser]);
+            fetchDriver();
+        } else {
+            setName(driver.nome);
+            setStatus(driver.ativo);
+        }
+    }, [idUser, driver, dispatch]);
 
     const handleSaveClick = async () => {
         const updatedDriver = { nome: inputValue || name, ativo: status };
 
         try {
             const token = localStorage.getItem('authToken');
-            await axios.put(`${process.env.REACT_APP_API_URL}/condutor/${idCondutor}`, updatedDriver, {
+            await axios.put(`${process.env.REACT_APP_API_URL}/condutor/${driver.id}`, updatedDriver, {
                 headers: { 'x-access-token': token },
             });
-            dispatch(updateDriver({ id: idCondutor, updatedDriver }));
+            dispatch(updateDriver({ id: driver.id, updatedDriver }));
             setModalMessage('Condutor atualizado com sucesso.');
             setModalType('success');
             setShowModal(true);
@@ -69,7 +76,7 @@ const EditDriverPage = () => {
 
     const handleEditClick = (section) => {
         setEditing(section);
-        setInputValue('');
+        setInputValue(name);
     };
 
     const handleClickOutside = (event) => {
@@ -102,7 +109,7 @@ const EditDriverPage = () => {
                 </section>
                 <section>
                     <div>Status:</div>
-                    <div>{status ? 'Ativo' : 'Inativo'}</div>
+                    <div>{driver?.ativo ? 'Ativo' : 'Inativo'}</div>
                 </section>
                 <div className="card-perfil">
                     {editing === 'nome' ? (
@@ -128,8 +135,8 @@ const EditDriverPage = () => {
                     {editing === 'status' ? (
                         <div className="card-edit" ref={cardEditRef}>
                             <label>Alterar Status:</label>
-                            <div className="edit-form">
-                                <div>
+                            <div className="edit-form radio-edit">
+                                <div className='radio-containers'>
                                     <input
                                         type="radio"
                                         id="ativo"
@@ -139,8 +146,6 @@ const EditDriverPage = () => {
                                         onChange={() => setStatus(true)}
                                     />
                                     <label htmlFor="ativo">Ativo</label>
-                                </div>
-                                <div>
                                     <input
                                         type="radio"
                                         id="inativo"
