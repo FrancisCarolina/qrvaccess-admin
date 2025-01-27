@@ -15,7 +15,6 @@ const Perfil = () => {
         login: '',
         role_id: '',
         senha: '',
-        confirmPassword: '',
         local: {
             id: '',
             nome: ''
@@ -32,7 +31,6 @@ const Perfil = () => {
                 login: user.login,
                 role_id: user.role_id,
                 senha: '',
-                confirmPassword: '',
                 local: {
                     id: user.Local?.id || '',
                     nome: user.Local?.nome || ''
@@ -82,10 +80,6 @@ const Perfil = () => {
         }
     };
 
-
-
-
-
     useEffect(() => {
         const handleCancelEdit = () => {
             setEditingField(null);
@@ -93,7 +87,6 @@ const Perfil = () => {
                 login: user.login,
                 role_id: user.role_id,
                 senha: '',
-                confirmPassword: '',
                 local: {
                     id: user.Local?.id || '',
                     nome: user.Local?.nome || ''
@@ -114,7 +107,7 @@ const Perfil = () => {
     return (
         <Layout>
             <div className="container-perfil">
-                <h2>Perfil de {user?.login}</h2>
+                <h2>Perfil do Administrador do {user?.Local?.nome}</h2>
                 <section>
                     <div>Login:</div>
                     <div>{user?.login}</div>
