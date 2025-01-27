@@ -134,3 +134,38 @@
 .card-situacao button:hover {
     background-color: #5c4492;
 }
+
+.principal-content::-webkit-scrollbar {
+    width: 8px;
+    background-color: #3a353e;
+    /* Largura do scroll */
+}
+
+.principal-content::-webkit-scrollbar-track {
+    background-color: #2a2a2a;
+    /* Cor de fundo do track do scroll */
+    border-radius: 8px;
+    /* Bordas arredondadas */
+}
+
+.principal-content::-webkit-scrollbar-thumb {
+    background-color: #3a353e;
+    /* Cor do thumb do scroll */
+    border-radius: 8px;
+    /* Bordas arredondadas */
+}
+
+.principal-content::-webkit-scrollbar-thumb:hover {
+    background-color: #6950a5;
+    /* Cor do thumb quando hover */
+}
+
+.no-drivers-message {
+    font-size: 16px;
+    color: #fff;
+    background-color: #3a353e;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+}

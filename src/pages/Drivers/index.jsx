@@ -71,21 +71,58 @@ const DriversPage = () => {
                         </div>
                     </button>
                 </div>
-                <div className='condutores-scroll'>
-                    <section className="condutores-cards">
-                        {drivers && drivers.map((driver) => (
-                            <DriverCard
-                                key={driver.id}
-                                driver={driver}
-                                onEdit={handleEdit}
-                            />
-                        ))}
-                    </section>
-                </div>
+
+                {/* Verificando se há condutores */}
+                {drivers.length === 0 ? (
+                    <div className="no-drivers-message">
+                        Nenhum condutor encontrado. Adicione um novo condutor.
+                    </div>
+                ) : (
+                    <div className='condutores-scroll'>
+                        <section className="condutores-cards">
+                            {drivers.map((driver) => (
+                                <DriverCard
+                                    key={driver.id}
+                                    driver={driver}
+                                    onEdit={handleEdit}
+                                />
+                            ))}{drivers.map((driver) => (
+                                <DriverCard
+                                    key={driver.id}
+                                    driver={driver}
+                                    onEdit={handleEdit}
+                                />
+                            ))}{drivers.map((driver) => (
+                                <DriverCard
+                                    key={driver.id}
+                                    driver={driver}
+                                    onEdit={handleEdit}
+                                />
+                            ))}{drivers.map((driver) => (
+                                <DriverCard
+                                    key={driver.id}
+                                    driver={driver}
+                                    onEdit={handleEdit}
+                                />
+                            ))}{drivers.map((driver) => (
+                                <DriverCard
+                                    key={driver.id}
+                                    driver={driver}
+                                    onEdit={handleEdit}
+                                />
+                            ))}{drivers.map((driver) => (
+                                <DriverCard
+                                    key={driver.id}
+                                    driver={driver}
+                                    onEdit={handleEdit}
+                                />
+                            ))}
+                        </section>
+                    </div>
+                )}
 
             </div>
         </Layout>
     );
 };
-
 export default DriversPage;
