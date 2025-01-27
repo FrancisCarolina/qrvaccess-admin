@@ -1,17 +1,168 @@
-.driver-cards-container {
+/* Estilo geral da página */
+.container-novo-condutor {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #2a2a2a;
+    color: #fff;
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+/* Estilo do título */
+.container-novo-condutor h1 {
+    font-size: 28px;
+    color: #6950a5;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Estilo do subtítulo */
+.container-novo-condutor p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Estilo do campo de texto e botão na mesma linha */
+.container-novo-condutor div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Alinha o botão e o input na mesma linha */
+    gap: 10px;
+    /* Adiciona espaço entre os elementos */
+    margin-bottom: 20px;
+}
+
+.container-novo-condutor input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+    background-color: transparent;
+    color: #fff;
+    width: 400px
+}
+
+.container-novo-condutor button {
+    background-color: #6950a5;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.container-novo-condutor .novo-condutor:hover {
+    background-color: #594388;
+}
+
+.container-novo-condutor button div {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+/* Estilo do card */
+.card-condutores {
+    background-color: #3a353e;
+    /* Novo fundo para o card */
+    padding: 40px;
+    margin: 15px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Box-shadow para dar um efeito de elevação */
+    transition: transform 0.3s ease, cursor 0.3s ease;
+    color: white;
+    /* Cor do texto no card */
+}
+
+.card-condutores:hover {
+    transform: scale(1.05);
+    /* Aumenta o tamanho do card no hover */
+    cursor: pointer;
+    /* Muda o cursor para pointer */
+}
+
+/* Estilo do status (Ativo/Inativo) */
+.card-condutores span {
+    font-size: 14px;
+    color: #fff;
+    background-color: #6950a5;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+
+/* Estilo do nome do condutor */
+.card-condutores h2 {
+    font-size: 20px;
+    color: #fff;
+    margin: 10px 0;
+}
+
+/* Estilo das informações do condutor */
+.card-condutores div p {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.card-condutores div p:first-child {
+    font-weight: bold;
+}
+
+.card-titulo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-condutores .condutor-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0
+}
+
+.condutores-cards {
+    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
+    gap: 30px;
+    justify-content: center;
 }
 
-.cards-scroll-container {
-    max-height: 470px;
+/* Estilo do botão no card */
+.card-condutores .card-condutor-button {
+    background-color: #6950a5;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 0;
+}
+
+
+.card-condutores {
+    display: flex;
+    flex-direction: column;
+}
+
+.condutores-scroll {
     overflow-y: auto;
-}
-
-@media (max-width: 768px) {
-    .driver-cards-container {
-        justify-content: center;
-    }
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }

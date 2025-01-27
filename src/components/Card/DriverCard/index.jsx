@@ -1,26 +1,27 @@
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
-import { FaEdit } from 'react-icons/fa';
 import './styles.css';
 
 const DriverCard = ({ driver, onEdit }) => {
+    const status = driver.ativo ? 'Ativo' : 'Inativo';
     return (
-        <Card className="driver-card mb-3 shadow-sm">
-            <Card.Body>
-                <Card.Title>Nome: {driver.nome}</Card.Title>
-                <Card.Text>CPF: {driver.cpf}</Card.Text>
-                <Card.Text>Login: {driver.Usuario?.login}</Card.Text>
-                <div className="d-flex justify-content-between">
-                    <Card.Text>
-                        Status: {driver.ativo ? 'Ativo' : 'Inativo'}
-                    </Card.Text>
-                    <Button variant="outline-primary" onClick={() => onEdit(driver.Usuario?.id)} className="d-flex align-items-center">
-                        <FaEdit className="me-2" />
-                        Editar
-                    </Button>
+        <div className="card-condutores" onClick={() => onEdit(driver.Usuario?.id)}>
+            <div className="card-titulo">
+                <span>{status}</span>
+                <h2>{driver.nome}</h2>
+            </div>
+            <div className="condutor-content">
+                <div>
+                    <p>CPF:</p>
+                    <p>{driver.cpf}</p>
                 </div>
-            </Card.Body>
-        </Card>
+                <div>
+                    <p>Login:</p>
+                    <p>{driver.Usuario?.login}</p>
+                </div>
+            </div>
+
+            <button className="card-condutor-button">Visualizar Condutor</button>
+        </div>
     );
 };
 

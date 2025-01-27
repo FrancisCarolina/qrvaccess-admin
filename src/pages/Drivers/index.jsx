@@ -5,7 +5,6 @@ import { setDrivers, selectDrivers } from '../../redux/driverSlice';
 import Layout from '../../components/Layout';
 import DriverCard from '../../components/Card/DriverCard';
 import './styles.css';
-import { Button } from 'react-bootstrap';
 import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
@@ -50,7 +49,7 @@ const DriversPage = () => {
     };
 
     const handleCreateDriver = () => {
-        navigate("/novoCondutor")
+        navigate("/novoCondutor");
     };
 
     if (loading) {
@@ -59,26 +58,31 @@ const DriversPage = () => {
 
     return (
         <Layout>
-            <h2 className='mb-4'>Meus Condutores</h2>
-            <div className="cards-scroll-container">
-                <div className="driver-cards-container">
-                    {drivers && drivers.map((driver) => (
-                        <DriverCard key={driver.id} driver={driver} onEdit={handleEdit} />
-                    ))}
-                </div>
-            </div>
+            <div className="container-novo-condutor">
+                <h1>Meus Condutores</h1>
+                <p>Controle os condutores dos veículos que acessam seu local regularmente</p>
 
-            <div className="d-flex justify-content-end mt-4">
-                <Button
-                    variant="primary"
-                    onClick={handleCreateDriver}
-                    className="btn-floating"
-                >
-                    <div className='d-flex justify-content-between align-items-center'>
-                        Novo Condutor
-                        <FaPlus size={20} style={{ marginLeft: '8px' }} />
-                    </div>
-                </Button>
+                <div>
+                    <input type="text" placeholder="Busque pelo Condutor pelo Nome ou CPF" />
+                    <button className="novo-condutor" onClick={handleCreateDriver}>
+                        <div>
+                            Novo Condutor
+                            <FaPlus size={20} style={{ marginLeft: '8px' }} />
+                        </div>
+                    </button>
+                </div>
+                <div className='condutores-scroll'>
+                    <section className="condutores-cards">
+                        {drivers && drivers.map((driver) => (
+                            <DriverCard
+                                key={driver.id}
+                                driver={driver}
+                                onEdit={handleEdit}
+                            />
+                        ))}
+                    </section>
+                </div>
+
             </div>
         </Layout>
     );
