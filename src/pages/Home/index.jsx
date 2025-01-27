@@ -3,14 +3,43 @@ import Layout from '../../components/Layout';
 import { Chart } from "react-google-charts";
 import { FaUsers, FaCar } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import './styles.css';
 
 const HomePage = () => {
     const [data, setData] = useState([]);
     const [chartTitle, setChartTitle] = useState("");
-    const quantidade = 10;
+    const [quantCondutores, setQuantCondutores] = useState(0);
+    const [quantVeiculos, setQuantVeiculos] = useState(0);
     const navigate = useNavigate();
+
+
+    const user = useSelector((state) => state.user.user);
+
+    const getCondutoresAtivos = async () => {
+        try {
+            ///condutor/local/2
+            const token = localStorage.getItem('authToken');
+            const response = await axios.get(
+                `${process.env.REACT_APP_API_URL}/condutor/local/${user.Local?.id}`,
+                {
+                    headers: { 'x-access-token': token }, // Adiciona o cabeçalho
+                }
+            );
+            const condutores = response.data;
+            let countCondutorAtivo = 0;
+            condutores.forEach(condutor => {
+                if (condutor.ativo) {
+                    countCondutorAtivo += 1;
+                }
+            })
+            setQuantCondutores(countCondutorAtivo);
+
+        } catch (error) {
+            console.error("Erro ao buscar dados:", error);
+        }
+    }
 
     const fetchData = async () => {
         const today = new Date();
@@ -28,7 +57,7 @@ const HomePage = () => {
 
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/historico/local/2?type=weekly&date=${lastSunday.toISOString().split('T')[0]}`,
+                `${process.env.REACT_APP_API_URL}/historico/local/${user.Local?.id}?type=weekly&date=${lastSunday.toISOString().split('T')[0]}`,
                 {
                     headers: { 'x-access-token': token }, // Adiciona o cabeçalho
                 }
@@ -46,17 +75,22 @@ const HomePage = () => {
                     [day.toLocaleDateString('pt-BR', { weekday: 'long' })]: 0,
                 };
             }
-
+            let condutor, countVeiculosPresentes = 0;
             historicos.forEach((item) => {
                 item.Condutor?.Veiculos.forEach((veiculo) => {
                     veiculo.Historicos.forEach((historico) => {
                         const entrada = new Date(historico.data_entrada);
                         const dayName = entrada.toLocaleDateString('pt-BR', { weekday: 'long' });
-
                         countsByDay[dayName] += 1;
+                        if (condutor !== item.Condutor && historico.data_saida === null) {
+                            countVeiculosPresentes += 1;
+                            condutor = item.Condutor;
+                        }
                     });
                 });
             });
+            getCondutoresAtivos();
+            setQuantVeiculos(countVeiculosPresentes);
 
             setData([
                 ["Dia", "Quantidade"],
@@ -69,7 +103,7 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [user]);
 
     const options = {
         title: chartTitle, // Adiciona o título dinâmico
@@ -119,13 +153,13 @@ const HomePage = () => {
                         <div className="card-situacao">
                             <FaUsers size={40} color="#fff" />
                             <p className="titulo">Condutores Ativos</p>
-                            <p>Quantidade de Condutores Ativos no seu Local: {quantidade}</p>
+                            <p>Quantidade de Condutores Ativos no seu Local: {quantCondutores}</p>
                             <button onClick={() => navigate('/condutores')}>Saiba Mais</button>
                         </div>
                         <div className="card-situacao">
                             <FaCar size={40} color="#fff" />
                             <p className="titulo">Veículos Presentes</p>
-                            <p>Quantidade de Veículos Presentes no seu Local: {quantidade}</p>
+                            <p>Quantidade de Veículos Presentes no seu Local: {quantVeiculos}</p>
                             <button onClick={() => navigate('/veiculos')}>Saiba Mais</button>
                         </div>
                     </div>
