@@ -1,6 +1,5 @@
 .login-section {
     flex: 4;
-    /* 40% da largura */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8,7 +7,6 @@
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo do formulário de login */
 .login-form {
     width: 80%;
     max-width: 400px;
@@ -47,7 +45,6 @@
     text-align: left;
 }
 
-/* Estilo para os labels */
 .label {
     display: block;
     margin-bottom: 5px;

@@ -78,7 +78,6 @@ const LoginPage = () => {
         <div className="login-section">
           <LoginForm onLogin={handleLogin} />
 
-          {/* Modal de mensagem */}
           <MessageModal
             showModal={showModal}
             handleClose={handleCloseModal}

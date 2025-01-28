@@ -25,7 +25,6 @@
     margin-top: 20px;
 }
 
-/* Estilo do card */
 .card-novo-driver {
     background-color: #3a353e;
     padding: 20px;
@@ -83,7 +82,6 @@
     opacity: 0.8;
 }
 
-/* Estilo da descrição */
 .descricao {
     background-color: #3a353e;
     padding: 20px;

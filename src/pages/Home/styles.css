@@ -1,4 +1,3 @@
-/* Estilo para o layout principal */
 .container-home {
     display: flex;
     justify-content: center;
@@ -9,7 +8,6 @@
     padding-bottom: 80px;
 }
 
-/* Estilo do card que contém o gráfico e o botão */
 .container-home .card {
     background-color: #3a353e;
     padding: 20px;
@@ -19,7 +17,6 @@
     text-align: center;
 }
 
-/* Título do card */
 .container-home .card-title {
     font-size: 1.5rem;
     font-weight: 600;
@@ -27,7 +24,6 @@
     margin-bottom: 20px;
 }
 
-/* Estilo do botão "Mais Relatórios" */
 .container-home .report-button {
     background-color: #6950a5;
     color: #ffffff;
@@ -47,7 +43,6 @@
     outline: none;
 }
 
-/* Ajustes para o gráfico */
 .chart {
     margin-top: 20px;
 }
@@ -138,26 +133,20 @@
 .principal-content::-webkit-scrollbar {
     width: 8px;
     background-color: #3a353e;
-    /* Largura do scroll */
 }
 
 .principal-content::-webkit-scrollbar-track {
     background-color: #2a2a2a;
-    /* Cor de fundo do track do scroll */
     border-radius: 8px;
-    /* Bordas arredondadas */
 }
 
 .principal-content::-webkit-scrollbar-thumb {
     background-color: #3a353e;
-    /* Cor do thumb do scroll */
     border-radius: 8px;
-    /* Bordas arredondadas */
 }
 
 .principal-content::-webkit-scrollbar-thumb:hover {
     background-color: #6950a5;
-    /* Cor do thumb quando hover */
 }
 
 .no-drivers-message {

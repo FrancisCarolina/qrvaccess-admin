@@ -1,11 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './styles.css';
 import { Card } from 'react-bootstrap';
 
 const VehicleCard = ({ vehicle, disabled }) => {
-    useEffect(() => {
-        console.log("VEICULOS: ", vehicle);
-    }, [vehicle]);
 
     return (
         <Card

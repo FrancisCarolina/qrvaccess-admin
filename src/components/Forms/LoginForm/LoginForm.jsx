@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PasswordInput from '../../Inputs/PasswordInput';
-import { Link } from 'react-router-dom'; // Importa o componente
+import { Link } from 'react-router-dom';
 import './styles.css'
 
 const LoginForm = ({ onLogin }) => {

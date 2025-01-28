@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import PasswordInput from '../Inputs/PasswordInput'; // Importa o novo componente
-// Adiciona o mesmo arquivo de estilos
+import PasswordInput from '../Inputs/PasswordInput';
 
 const RegisterForm = ({ onRegister }) => {
   const [email, setEmail] = useState('');

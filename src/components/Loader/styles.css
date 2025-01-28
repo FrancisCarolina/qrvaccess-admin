@@ -9,9 +9,7 @@
 
 .loader {
     border: 8px solid #2a2a2a;
-    /* Cor do fundo do loader */
     border-top: 8px solid #6950a5;
-    /* Cor do loader */
     border-radius: 50%;
     width: 60px;
     height: 60px;

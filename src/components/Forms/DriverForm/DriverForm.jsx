@@ -15,7 +15,7 @@ const DriverForm = () => {
     const user = useSelector((state) => state.user.user);
 
     const handleCpfChange = (event) => {
-        const inputValue = event.target.value.replace(/\D/g, ''); // Apenas números
+        const inputValue = event.target.value.replace(/\D/g, '');
         const formattedCpf = inputValue
             .replace(/^(\d{3})(\d)/, '$1.$2')
             .replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3')

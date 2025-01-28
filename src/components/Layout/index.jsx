@@ -61,7 +61,6 @@ const Layout = ({ children }) => {
         navigate('/perfil');
     };
 
-    // Função para navegação para a página principal
     const handleLogoClick = () => {
         navigate('/');
     };
@@ -69,7 +68,6 @@ const Layout = ({ children }) => {
     return (
         verificaSeLogado() ? (
             <div className="container-layout">
-                {/* Menu Lateral */}
                 <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
                     <div className='imagem-layout'>
                         <img
@@ -101,7 +99,6 @@ const Layout = ({ children }) => {
                     </ul>
                 </div>
 
-                {/* Conteúdo Principal */}
                 <div className="content-layout">
                     <div className="top-menu-layout">
                         <span>Administrador - {user?.Local?.nome || 'Meu Local'}</span>

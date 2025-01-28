@@ -3,10 +3,8 @@
     height: 100vh;
 }
 
-/* Seção da imagem */
 .image-section {
     flex: 6;
-    /* 60% da largura */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,10 +17,8 @@
     object-fit: cover;
 }
 
-/* Seção de login */
 .login-section {
     flex: 4;
-    /* 40% da largura */
     display: flex;
     align-items: center;
     justify-content: center;

@@ -4,7 +4,6 @@
     overflow-y: hidden;
 }
 
-/* Menu lateral */
 .sidebar {
     width: 260px;
     background-color: #333;
@@ -80,39 +79,31 @@
     font-size: 16px;
 }
 
-/* Ícones */
 .sidebar-menu li svg {
     font-size: 20px;
 }
 
-/* Top Menu */
 .top-menu-layout {
     background-color: #6950a5;
     display: flex;
     justify-content: flex-end;
-    /* Alinha itens no canto direito */
     align-items: center;
     padding: 20px 30px;
-    /* Adiciona espaçamento interno */
     color: white;
     gap: 30px;
-    /* Espaçamento entre os itens */
 }
 
 .profile-icon {
     cursor: pointer;
     font-size: 24px;
-    /* Tamanho do ícone */
     color: white;
     transition: transform 0.3s;
 }
 
 .profile-icon:hover {
     transform: scale(1.1);
-    /* Efeito de zoom ao passar o mouse */
 }
 
-/* Conteúdo principal */
 .content-layout {
     flex-grow: 1;
 }
@@ -125,9 +116,6 @@
 .dropdown-menu-fixed {
     position: fixed !important;
     top: 50px;
-    /* Ajuste conforme necessário */
     right: 20px;
-    /* Define o espaçamento da borda direita */
     z-index: 1050;
-    /* Garante que o menu esteja acima de outros elementos */
 }

@@ -1,6 +1,5 @@
 .relatorios-container {
     background-color: #2a2a2a;
-    /* Fundo escuro */
     color: white;
     height: 100vh;
     display: flex;
@@ -9,18 +8,15 @@
     padding-top: 50px;
 }
 
-/* Contêiner principal */
 .relatorios {
     max-width: 600px;
     background-color: #3a3a3a;
-    /* Cinza escuro */
     padding: 40px 60px;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
-/* Cabeçalho */
 .relatorios h1 {
     font-size: 24px;
     color: #fff;
@@ -33,7 +29,6 @@
     margin-bottom: 50px;
 }
 
-/* Estilização dos radio buttons */
 .radio-containers {
     display: flex;
     align-items: center;
@@ -80,7 +75,6 @@
     cursor: pointer;
 }
 
-/* Filtros */
 .filtro-diario-semanal input[type="date"] {
     padding: 8px;
     font-size: 14px;
@@ -114,7 +108,6 @@
     width: 200px;
 }
 
-/* Botão de gerar relatório */
 .relatorio-botao .button {
     background-color: #6950a5;
     color: white;
@@ -141,46 +134,36 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: transparent;
-    /* Fundo inicial */
     color: white;
     appearance: none;
-    /* Remove o estilo padrão */
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
     width: 200px;
 }
 
-/* Estilo ao ganhar foco */
 .filtro-mensal select:focus {
     background-color: #6950a5;
-    /* Mesma cor do botão */
     border-color: #6950a5;
     color: white;
     outline: none;
     box-shadow: 0 0 5px #6950a5;
 }
 
-/* Estilo das opções */
 .filtro-mensal select option {
     background-color: #2a2a2a;
-    /* Fundo das opções */
     color: white;
     font-size: 14px;
 }
 
-/* Opção selecionada */
 .filtro-mensal select option:checked {
     background-color: #6950a5;
-    /* Fundo da opção selecionada */
     color: white;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
-    /* Inverte as cores do ícone, tornando-o branco */
 }
 
 input[type="date"]::-moz-calendar-picker-indicator {
     filter: invert(1);
-    /* Para navegadores baseados em Firefox */
 }

@@ -19,12 +19,11 @@ const HomePage = () => {
 
     const getCondutoresAtivos = async () => {
         try {
-            ///condutor/local/2
             const token = localStorage.getItem('authToken');
             const response = await axios.get(
                 `${process.env.REACT_APP_API_URL}/condutor/local/${user.Local?.id}`,
                 {
-                    headers: { 'x-access-token': token }, // Adiciona o cabeçalho
+                    headers: { 'x-access-token': token },
                 }
             );
             const condutores = response.data;
@@ -43,23 +42,22 @@ const HomePage = () => {
 
     const fetchData = async () => {
         const today = new Date();
-        const lastSunday = new Date(today.setDate(today.getDate() - today.getDay())); // Último domingo
+        const lastSunday = new Date(today.setDate(today.getDate() - today.getDay()));
         const nextSaturday = new Date(lastSunday);
-        nextSaturday.setDate(nextSaturday.getDate() + 6); // Próximo sábado
+        nextSaturday.setDate(nextSaturday.getDate() + 6);
 
         const formattedStartDate = lastSunday.toLocaleDateString('pt-BR');
         const formattedEndDate = nextSaturday.toLocaleDateString('pt-BR');
 
-        // Atualiza o título do gráfico
         setChartTitle(`De ${formattedStartDate} até ${formattedEndDate}`);
 
-        const token = localStorage.getItem('authToken'); // Recupera o token
+        const token = localStorage.getItem('authToken');
 
         try {
             const response = await axios.get(
                 `${process.env.REACT_APP_API_URL}/historico/local/${user.Local?.id}?type=weekly&date=${lastSunday.toISOString().split('T')[0]}`,
                 {
-                    headers: { 'x-access-token': token }, // Adiciona o cabeçalho
+                    headers: { 'x-access-token': token },
                 }
             );
 
@@ -107,7 +105,7 @@ const HomePage = () => {
     }, [user]);
 
     const options = {
-        title: chartTitle, // Adiciona o título dinâmico
+        title: chartTitle,
         titleTextStyle: { color: "#fff", fontSize: 16, fontName: "Consolas", },
         backgroundColor: "#3a353e",
         hAxis: {

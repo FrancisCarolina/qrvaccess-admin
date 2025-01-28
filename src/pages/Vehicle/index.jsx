@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import './styles.css'; // Seu CSS customizado
+import './styles.css';
 import Layout from '../../components/Layout';
 import { FaSearch } from "react-icons/fa";
 import { format } from 'date-fns';

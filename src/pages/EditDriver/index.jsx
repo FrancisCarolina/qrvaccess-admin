@@ -13,7 +13,6 @@ const EditDriverPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // Acessando o estado do Redux
     const drivers = useSelector(selectDrivers);
     const driver = drivers.find((driver) => driver.idUser === Number(idUser));
 

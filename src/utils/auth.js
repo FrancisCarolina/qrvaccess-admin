@@ -1,4 +1,4 @@
-// Função para logar
+
 export function logar(token, userId) {
     localStorage.setItem('authToken', token);
     localStorage.setItem('userId', userId);

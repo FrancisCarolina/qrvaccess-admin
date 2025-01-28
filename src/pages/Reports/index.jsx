@@ -98,23 +98,22 @@ const ReportsPage = () => {
         );
 
         const pdfDoc = new jsPDF();
-        pdfDoc.setFontSize(10); // Reduz o tamanho da fonte para caber mais conteúdo
+        pdfDoc.setFontSize(10);
 
-        let positionY = 10; // Começa no topo da página
-        const pageHeight = 297; // Altura padrão da página A4 em mm
-        const lineHeight = 10; // Altura de cada linha de texto
+        let positionY = 10;
+        const pageHeight = 297;
+        const lineHeight = 10;
 
         const title = `Relatório ${filterType === 'daily' ? "Diário" : filterType === 'weekly' ? "Semanal" : "Mensal"} - ${user?.Local?.nome}`;
-        pdfDoc.setFont('helvetica', 'bold'); // Título em negrito
+        pdfDoc.setFont('helvetica', 'bold');
         pdfDoc.setFontSize(16);
         pdfDoc.text(10, positionY, title);
         positionY += lineHeight;
 
         if (filterType === 'monthly') {
-            // Obter o nome do mês a partir de selectedMonth e selectedYear
-            const monthDate = new Date(selectedYear, selectedMonth - 1); // selectedMonth deve ser um número (1-12)
+            const monthDate = new Date(selectedYear, selectedMonth - 1);
             const monthName = new Intl.DateTimeFormat('pt-BR', { month: 'long' }).format(monthDate);
-            const date = `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} de ${selectedYear}`; // Capitaliza o nome do mês
+            const date = `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} de ${selectedYear}`;
             pdfDoc.text(10, positionY, date);
             positionY += lineHeight;
         } else if (filterType === 'daily') {
@@ -141,9 +140,8 @@ const ReportsPage = () => {
         sortedData.forEach((item) => {
             const condutor = item.Condutor;
 
-            // Adicionar condutor
             const condutorText = `Condutor: ${condutor.nome} (CPF: ${condutor.cpf})`;
-            pdfDoc.setFont('helvetica', 'bold'); // Título em negrito
+            pdfDoc.setFont('helvetica', 'bold');
             pdfDoc.setFontSize(12);
             pdfDoc.text(10, positionY, condutorText);
             positionY += lineHeight;
@@ -179,17 +177,15 @@ const ReportsPage = () => {
                         pdfDoc.text(10, positionY, historicoText);
                         positionY += lineHeight;
 
-                        // Verificar se ultrapassou o limite da página
                         if (positionY > pageHeight - 20) {
-                            pdfDoc.addPage(); // Adicionar nova página
-                            positionY = 10; // Resetar posição para o topo
+                            pdfDoc.addPage();
+                            positionY = 10;
                         }
                     });
                     positionY += lineHeight;
                 }
             });
 
-            // Adiciona espaço entre condutores
             positionY += lineHeight;
 
             if (positionY > pageHeight - 20) {
