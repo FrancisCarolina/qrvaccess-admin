@@ -12,6 +12,7 @@ import Loader from '../../components/Loader';
 const DriversPage = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
 
     const user = useSelector((state) => state.user.user);
@@ -26,10 +27,7 @@ const DriversPage = () => {
                     const response = await axios.get(`${process.env.REACT_APP_API_URL}/condutor/local/${user.Local.id}`, {
                         headers: { 'x-access-token': token },
                     });
-                    console.log("RESPONSE: ", response.data);
-
                     dispatch(setDrivers(response.data));
-
                     setLoading(false);
                 } catch (error) {
                     console.error('Erro ao buscar condutores:', error);
@@ -42,7 +40,7 @@ const DriversPage = () => {
         };
 
         fetchDrivers();
-    }, [user, drivers, dispatch]);
+    }, [user, dispatch]);
 
     const handleEdit = (driverId) => {
         navigate(`/condutores/${driverId}/editar`);
@@ -51,6 +49,11 @@ const DriversPage = () => {
     const handleCreateDriver = () => {
         navigate("/novoCondutor");
     };
+
+    const filteredDrivers = drivers.filter(driver =>
+        driver.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        driver.cpf.includes(searchTerm)
+    );
 
     if (loading) {
         return <Layout><Loader></Loader></Layout>;
@@ -63,7 +66,12 @@ const DriversPage = () => {
                 <p>Controle os condutores dos veículos que acessam seu local regularmente</p>
 
                 <div>
-                    <input type="text" placeholder="Busque pelo Condutor pelo Nome ou CPF" />
+                    <input
+                        type="text"
+                        placeholder="Busque pelo Condutor pelo Nome ou CPF"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
                     <button className="novo-condutor" onClick={handleCreateDriver}>
                         <div>
                             Novo Condutor
@@ -72,15 +80,14 @@ const DriversPage = () => {
                     </button>
                 </div>
 
-                {/* Verificando se há condutores */}
-                {drivers.length === 0 ? (
+                {filteredDrivers.length === 0 ? (
                     <div className="no-drivers-message">
-                        Nenhum condutor encontrado. Adicione um novo condutor.
+                        Nenhum condutor encontrado.
                     </div>
                 ) : (
                     <div className='condutores-scroll'>
                         <section className="condutores-cards">
-                            {drivers.map((driver) => (
+                            {filteredDrivers.map((driver) => (
                                 <DriverCard
                                     key={driver.id}
                                     driver={driver}
@@ -95,4 +102,5 @@ const DriversPage = () => {
         </Layout>
     );
 };
+
 export default DriversPage;
