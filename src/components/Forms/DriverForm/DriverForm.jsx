@@ -121,7 +121,7 @@ const DriverForm = () => {
                     <div className="descricao">
                         <h4>Controle os condutores que usam seu local de modo mais eficiente!</h4>
                         <div className="imagem-novo-driver">
-                            <img src="/QR_VAccess.png" alt="QR-VAccess" className="logo-img-driver" />
+                            <img src="/cadastro-condutor.png" alt="QR-VAccess" className="logo-img-driver" />
                         </div>
                     </div>
                 </div>
