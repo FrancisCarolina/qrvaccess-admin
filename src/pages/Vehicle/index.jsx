@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import './styles.css'; // Seu CSS customizado
 import Layout from '../../components/Layout';
-import VehicleCard from '../../components/Card/VehicleCard';
-import './styles.css';
+import { FaSearch } from "react-icons/fa";
 
 const VehiclesPage = () => {
     const [vehiclesPresent, setVehiclesPresent] = useState([]);
     const [otherVehicles, setOtherVehicles] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [search, setSearch] = useState(""); // Estado para o campo de busca
+    const [search, setSearch] = useState("");
+    const [detailsVisible, setDetailsVisible] = useState({});
 
     const user = useSelector((state) => state.user.user);
 
@@ -17,7 +18,6 @@ const VehiclesPage = () => {
         const token = localStorage.getItem('authToken');
         if (token && user && user.Local && user.Local.id) {
             try {
-                // URL para buscar veículos
                 const vehicleUrl = query
                     ? `${process.env.REACT_APP_API_URL}/busca/veiculo/local/${user.Local.id}`
                     : `${process.env.REACT_APP_API_URL}/veiculo/local/${user.Local.id}`;
@@ -26,21 +26,18 @@ const VehiclesPage = () => {
 
                 const vehicleResponse = await axios.get(vehicleUrl, {
                     headers: { 'x-access-token': token },
-                    params, // Passa os parâmetros apenas se houver busca
+                    params,
                 });
 
                 const vehicles = vehicleResponse.data;
                 const today = new Date().toISOString().split('T')[0];
-                // URL para buscar histórico
                 const historyUrl = `${process.env.REACT_APP_API_URL}/historico/local/${user.Local.id}`;
                 const historyResponse = await axios.get(historyUrl, {
                     headers: { 'x-access-token': token },
-                    params: { type: "daily", date: today }, // Exemplo de filtro
+                    params: { type: "daily", date: today },
                 });
 
                 const historyData = historyResponse.data;
-
-                // Determine veículos presentes e outros
                 const presentVehicles = [];
                 const otherVehicles = [];
 
@@ -72,13 +69,11 @@ const VehiclesPage = () => {
         }
     };
 
-    // Busca inicial
     useEffect(() => {
         fetchVehicles();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
-    // Manipulador para o campo de busca
     const handleSearchChange = (e) => {
         setLoading(true);
         const query = e.target.value;
@@ -87,46 +82,147 @@ const VehiclesPage = () => {
         setLoading(false);
     };
 
+    const toggleDetails = (id) => {
+        setDetailsVisible((prev) => ({ ...prev, [id]: !prev[id] }));
+    };
+
     if (loading) {
         return <div>Carregando...</div>;
     }
 
     return (
         <Layout>
-            <h2 className='mb-4'>Gerenciamento de Veículos</h2>
-            <input
-                type="text"
-                className="search-input"
-                placeholder="Busque por placa ou nome do condutor..."
-                value={search}
-                onChange={handleSearchChange}
-            />
-            {vehiclesPresent.length === 0 && otherVehicles.length === 0 ? (
-                <div className="no-vehicles-message">Nenhum veículo encontrado.</div>
-            ) : (
-                <div className="cards-scroll-container">
+            <div className="container-veiculos">
+                <h1>Gerenciamento de Veículos</h1>
+                <div className="busca-container">
+                    <div className="input-wrapper">
+                        <input
+                            type="text"
+                            placeholder="Buscar por placa do veículo ou nome do condutor"
+                            className="input-busca"
+                            value={search}
+                            onChange={handleSearchChange}
+                        />
+                        <FaSearch className="busca-icon" />
+                    </div>
+                </div>
+                <div className='lista-veiculos'>
+                    <h2 className="titulo-detalhes">Veículos Presentes</h2>
+                    {!loading && vehiclesPresent.length === 0 && (
+                        <p>Nenhum veículo estacionado encontrado.</p>
+                    )}
+
                     {vehiclesPresent.length > 0 && (
                         <>
-                            <h3 className="section-title">Veículos Presentes</h3>
-                            <div className="vehicle-cards-container">
+                            <div className="veiculos-presentes">
                                 {vehiclesPresent.map((vehicle) => (
-                                    <VehicleCard key={vehicle.id} vehicle={vehicle} />
+                                    <div
+                                        key={vehicle.id}
+                                        className="card-veiculo-detalhes estacionado"
+                                    >
+                                        <span>Estacionado</span>
+                                        <div>
+                                            <h2>{vehicle.modelo}</h2>
+                                            <h1>{vehicle.Condutor?.nome}</h1>
+                                        </div>
+                                        <div className="detalhes-container">
+                                            <div className="detalhes">
+                                                <div className="detalhes-label">
+                                                    <p><strong>Placa:</strong></p>
+                                                    <p>{vehicle.placa}</p>
+                                                </div>
+                                                <div className="detalhes-label">
+                                                    <p><strong>Cor:</strong></p>
+                                                    <p>{vehicle.cor}</p>
+                                                </div>
+                                            </div>
+                                            <div className="detalhes">
+                                                <div className="detalhes-label">
+                                                    <p><strong>Marca:</strong></p>
+                                                    <p>{vehicle.marca}</p>
+                                                </div>
+                                                <div className="detalhes-label">
+                                                    <p><strong>Ano:</strong></p>
+                                                    <p>{vehicle.ano}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {detailsVisible[vehicle.id] && (
+                                            <>
+                                                <hr className="divisoria" />
+                                                <div className="entrada-detalhes">
+                                                    <h3>Detalhes da Entrada</h3>
+                                                    <div className="detalhes">
+                                                        <div className="detalhes-label">
+                                                            <p><strong>Data:</strong></p>
+                                                            <p>00/00/0000</p>
+                                                        </div>
+                                                        <div className="detalhes-label">
+                                                            <p><strong>Horário:</strong></p>
+                                                            <p>00:00:00</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )}
+                                        <div className="button-container">
+                                            <button onClick={() => toggleDetails(vehicle.id)}>
+                                                {detailsVisible[vehicle.id] ? "Minimizar" : "Visualizar Mais"}
+                                            </button>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         </>
                     )}
+                    <hr className="divisoria" />
+                    <h2 className="titulo-detalhes">Outros Veículos</h2>
+                    {!loading && otherVehicles.length === 0 && (
+                        <p>Nenhum outro veículo encontrado.</p>
+                    )}
                     {otherVehicles.length > 0 && (
                         <>
-                            {vehiclesPresent.length > 0 && <h3 className="section-title">Outros Veículos</h3>}
-                            <div className="vehicle-cards-container">
+                            <div className="veiculos-outros">
                                 {otherVehicles.map((vehicle) => (
-                                    <VehicleCard key={vehicle.id} vehicle={vehicle} disabled={vehiclesPresent.length > 0} />
+                                    <div
+                                        key={vehicle.id}
+                                        className="card-veiculo-detalhes nao-estacionado disabled"
+                                    >
+                                        <span>Fora do local</span>
+                                        <div>
+                                            <h2>{vehicle.modelo}</h2>
+                                            <h1>{vehicle.Condutor?.nome}</h1>
+                                        </div>
+                                        <div className="detalhes-container">
+                                            <div className="detalhes">
+                                                <div className="detalhes-label">
+                                                    <p><strong>Placa:</strong></p>
+                                                    <p>{vehicle.placa}</p>
+                                                </div>
+                                                <div className="detalhes-label">
+                                                    <p><strong>Cor:</strong></p>
+                                                    <p>{vehicle.cor}</p>
+                                                </div>
+                                            </div>
+                                            <div className="detalhes">
+                                                <div className="detalhes-label">
+                                                    <p><strong>Marca:</strong></p>
+                                                    <p>{vehicle.marca}</p>
+                                                </div>
+                                                <div className="detalhes-label">
+                                                    <p><strong>Ano:</strong></p>
+                                                    <p>{vehicle.ano}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         </>
                     )}
                 </div>
-            )}
+
+            </div>
         </Layout>
     );
 };
