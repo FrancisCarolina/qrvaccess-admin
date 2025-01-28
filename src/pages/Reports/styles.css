@@ -1,0 +1,176 @@
+.relatorios-container {
+    background-color: #2a2a2a;
+    /* Fundo escuro */
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 50px;
+}
+
+/* Contêiner principal */
+.relatorios {
+    max-width: 600px;
+    background-color: #3a3a3a;
+    /* Cinza escuro */
+    padding: 40px 60px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Cabeçalho */
+.relatorios h1 {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.relatorios p {
+    font-size: 16px;
+    color: #ccc;
+    margin-bottom: 50px;
+}
+
+/* Estilização dos radio buttons */
+.radio-containers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.tipo-relatorio {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+.radio-containers input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.radio-containers input[type="radio"]:checked {
+    background-color: #6950a5;
+    border-color: #6950a5;
+}
+
+.radio-containers input[type="radio"]:focus {
+    border-color: #6950a5;
+    box-shadow: 0 0 5px #6950a5;
+}
+
+.radio-containers label {
+    margin-left: 10px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Filtros */
+.filtro-diario-semanal input[type="date"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: white;
+}
+
+.filtro-diario-semanal input[type="date"]:focus {
+    outline: none;
+    border: 1px solid #9772ec;
+}
+
+.filtro-mensal {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.filtro-mensal select,
+.filtro-mensal input[type="number"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: transparent;
+    color: white;
+    width: 200px;
+}
+
+/* Botão de gerar relatório */
+.relatorio-botao .button {
+    background-color: #6950a5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.generate-report .button {
+    margin-top: 20px;
+}
+
+.relatorio-botao button:hover {
+    background-color: #57408c;
+}
+
+.filtro-mensal select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: transparent;
+    /* Fundo inicial */
+    color: white;
+    appearance: none;
+    /* Remove o estilo padrão */
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    width: 200px;
+}
+
+/* Estilo ao ganhar foco */
+.filtro-mensal select:focus {
+    background-color: #6950a5;
+    /* Mesma cor do botão */
+    border-color: #6950a5;
+    color: white;
+    outline: none;
+    box-shadow: 0 0 5px #6950a5;
+}
+
+/* Estilo das opções */
+.filtro-mensal select option {
+    background-color: #2a2a2a;
+    /* Fundo das opções */
+    color: white;
+    font-size: 14px;
+}
+
+/* Opção selecionada */
+.filtro-mensal select option:checked {
+    background-color: #6950a5;
+    /* Fundo da opção selecionada */
+    color: white;
+}

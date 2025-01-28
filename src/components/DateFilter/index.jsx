@@ -3,13 +3,14 @@ import { Form } from 'react-bootstrap';
 
 const DateFilter = ({ selectedDate, currentDay, handleDateChange }) => {
     return (
-        <Form.Group controlId="dateFilter">
-            <Form.Label>Selecione a data</Form.Label>
+        <Form.Group controlId="dateFilter" className="filtro-diario-semanal">
+            <Form.Label className="form-label">Selecione a data</Form.Label>
             <Form.Control
                 type="date"
                 value={selectedDate}
                 max={currentDay}
                 onChange={handleDateChange}
+                className="form-control"
             />
         </Form.Group>
     );

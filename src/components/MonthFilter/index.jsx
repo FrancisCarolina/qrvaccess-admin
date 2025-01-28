@@ -15,7 +15,7 @@ const MonthFilter = ({
     ];
 
     return (
-        <Form className="monthly-filter">
+        <Form className="filtro-mensal">
             <Row className="align-items-center">
                 <Col xs={12} md={6}>
                     <Form.Group controlId="monthSelect">
