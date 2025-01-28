@@ -174,3 +174,13 @@
     /* Fundo da opção selecionada */
     color: white;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    /* Inverte as cores do ícone, tornando-o branco */
+}
+
+input[type="date"]::-moz-calendar-picker-indicator {
+    filter: invert(1);
+    /* Para navegadores baseados em Firefox */
+}
