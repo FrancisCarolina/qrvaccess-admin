@@ -103,6 +103,7 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     const options = {

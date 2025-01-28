@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../../components/Layout';
-import DriverForm from '../../components/Forms/DriverForm';
+import DriverForm from '../../components/Forms/DriverForm/DriverForm';
 
 const NewDriversPage = () => {
 

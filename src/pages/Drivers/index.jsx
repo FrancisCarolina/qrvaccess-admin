@@ -23,14 +23,13 @@ const DriversPage = () => {
 
             if (token && user && user.Local && user.Local.id) {
                 try {
-                    if (drivers.length === 0) {
-                        const response = await axios.get(`${process.env.REACT_APP_API_URL}/condutor/local/${user.Local.id}`, {
-                            headers: { 'x-access-token': token },
-                        });
-                        console.log("RESPONSE: ", response.data);
+                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/condutor/local/${user.Local.id}`, {
+                        headers: { 'x-access-token': token },
+                    });
+                    console.log("RESPONSE: ", response.data);
 
-                        dispatch(setDrivers(response.data));
-                    }
+                    dispatch(setDrivers(response.data));
+
                     setLoading(false);
                 } catch (error) {
                     console.error('Erro ao buscar condutores:', error);
@@ -82,36 +81,6 @@ const DriversPage = () => {
                     <div className='condutores-scroll'>
                         <section className="condutores-cards">
                             {drivers.map((driver) => (
-                                <DriverCard
-                                    key={driver.id}
-                                    driver={driver}
-                                    onEdit={handleEdit}
-                                />
-                            ))}{drivers.map((driver) => (
-                                <DriverCard
-                                    key={driver.id}
-                                    driver={driver}
-                                    onEdit={handleEdit}
-                                />
-                            ))}{drivers.map((driver) => (
-                                <DriverCard
-                                    key={driver.id}
-                                    driver={driver}
-                                    onEdit={handleEdit}
-                                />
-                            ))}{drivers.map((driver) => (
-                                <DriverCard
-                                    key={driver.id}
-                                    driver={driver}
-                                    onEdit={handleEdit}
-                                />
-                            ))}{drivers.map((driver) => (
-                                <DriverCard
-                                    key={driver.id}
-                                    driver={driver}
-                                    onEdit={handleEdit}
-                                />
-                            ))}{drivers.map((driver) => (
                                 <DriverCard
                                     key={driver.id}
                                     driver={driver}
