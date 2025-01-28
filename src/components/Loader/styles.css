@@ -1,0 +1,29 @@
+.loader-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #2a2a2a;
+    z-index: 9999;
+}
+
+.loader {
+    border: 8px solid #2a2a2a;
+    /* Cor do fundo do loader */
+    border-top: 8px solid #6950a5;
+    /* Cor do loader */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -7,6 +7,7 @@ import DriverCard from '../../components/Card/DriverCard';
 import './styles.css';
 import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../components/Loader';
 
 const DriversPage = () => {
     const dispatch = useDispatch();
@@ -53,7 +54,7 @@ const DriversPage = () => {
     };
 
     if (loading) {
-        return <div>Carregando...</div>;
+        return <Layout><Loader></Loader></Layout>;
     }
 
     return (

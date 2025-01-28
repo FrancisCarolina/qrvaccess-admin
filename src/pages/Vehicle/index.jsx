@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux';
 import './styles.css'; // Seu CSS customizado
 import Layout from '../../components/Layout';
 import { FaSearch } from "react-icons/fa";
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import Loader from '../../components/Loader';
 
 const VehiclesPage = () => {
     const [vehiclesPresent, setVehiclesPresent] = useState([]);
@@ -48,7 +51,16 @@ const VehiclesPage = () => {
                         )
                     );
                     if (matchingHistory) {
-                        presentVehicles.push(vehicle);
+                        const historyEntry = matchingHistory?.Condutor?.Veiculos
+                            ?.find(v => v.placa === vehicle.placa)
+                            ?.Historicos?.find(h => h.data_saida === null);
+
+                        presentVehicles.push({
+                            ...vehicle,
+                            entrada: {
+                                data: historyEntry?.data_entrada || "Desconhecida",
+                            },
+                        });
                     } else {
                         otherVehicles.push(vehicle);
                     }
@@ -87,7 +99,7 @@ const VehiclesPage = () => {
     };
 
     if (loading) {
-        return <div>Carregando...</div>;
+        return <Layout><Loader></Loader></Layout>;
     }
 
     return (
@@ -155,11 +167,11 @@ const VehiclesPage = () => {
                                                     <div className="detalhes">
                                                         <div className="detalhes-label">
                                                             <p><strong>Data:</strong></p>
-                                                            <p>00/00/0000</p>
+                                                            <p>{format(new Date(vehicle.entrada.data), 'dd/MM/yyyy', { locale: ptBR })}</p>
                                                         </div>
                                                         <div className="detalhes-label">
                                                             <p><strong>Horário:</strong></p>
-                                                            <p>00:00:00</p>
+                                                            <p>{format(new Date(vehicle.entrada.data), 'HH:mm:ss', { locale: ptBR })}</p>
                                                         </div>
                                                     </div>
                                                 </div>
